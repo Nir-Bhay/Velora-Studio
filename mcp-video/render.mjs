@@ -8,6 +8,7 @@
 //   node render.mjs                               the full film (video only) → out/mcp-explainer-v2.mp4
 //   node render.mjs --audio out/audio-master.wav  mux a soundtrack (loudness set to −14 LUFS)
 //   node render.mjs --out x.mp4                   a different output name
+//   node render.mjs --film film-v4.mjs            render a different film module (same timing, same audio)
 //
 // MOTION BLUR: each output frame is the average of `sub` subframes spread over half a frame
 // (a 180° shutter). Subframe i lands at weight 1/(i+1) via successive source-over draws,
@@ -22,7 +23,8 @@ import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { W, H, FPS, DUR } from './brand.mjs';
-import { draw } from './film.mjs';
+// The film module is chosen with --film (default film.mjs). Loaded in main(), so the file can differ per cut.
+let draw;
 
 const here = dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -73,6 +75,8 @@ function frameCanvas(t, sub) {
 }
 
 async function main() {
+  const filmFile = String(arg('film', 'film.mjs'));
+  ({ draw } = await import(new URL(filmFile, import.meta.url)));
   await mkdir(join(OUT, 'stills'), { recursive: true });
   const sub = Math.max(1, Math.round(Number(arg('sub', 2))));
 

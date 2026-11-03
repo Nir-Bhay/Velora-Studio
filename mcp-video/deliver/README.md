@@ -7,6 +7,15 @@
 - Loops with no end card. The last half-second dissolves into frame 0 and the audio fades under it.
 - `poster-v3-2s.png` — the 2-second cover frame.
 
+## Compare: two versions of the same film
+
+Same narration, same sound, same timing. Only the picture differs.
+
+- `mcp-explainer-v3-loop-9x16-1080p60.mp4` — v3, diagram style (apps, tools, a plug; a waiter diagram; cards).
+- `mcp-explainer-v4-chat-9x16-1080p60.mp4` — v4, app style (apps morph into one plug; chat messages for the waiter and steps; a settings toggle for the new tool). Storyboard: `../STORYBOARD-v4.md`. Poster: `poster-v4-2s.png`.
+
+Both are on the films page. Both have −14.1 LUFS, true peak −1.7 dBTP, and a seamless loop.
+
 ## Previous version
 
 - `mcp-explainer-v2-loop-9x16-1080p60.mp4` — v2, the approved narration with the first picture. Kept for comparison; not on the films page.
