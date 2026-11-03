@@ -9,6 +9,10 @@ The skill is meant to get better with each film. Add to this list when you find 
    has not been rendered, and when it is, its delivery must match each scene (curious on the hook, decisive on
    the call, dry on the error). Next step: pick a voice (see `VOICE-RESEARCH.md`), write a per-scene emotion
    note, render one 10-second test, and listen before the full render.
+   **Audition chosen (Nov 2026):** platform voice `voice-00` (via the session's `add_voice`), educational
+   use case. A test clip of the audition line is in `mcp-video/out/narration-test-voice-00.wav` (git-ignored).
+   Its emotion has not been checked against the picture yet. Compare with a Hume or ElevenLabs take if the
+   user wants a stronger emotional read.
 2. **Narration is not in the MP4 yet.** [MCP explainer] Mix it with `adelay` and `sidechaincompress` per
    `SKILL.md`, then re-run the two-pass loudness and QA.
 3. **Caption and voice timing check.** Add a QA check that every caption's start and end fall inside its scene,
