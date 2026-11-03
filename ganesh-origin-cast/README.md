@@ -59,3 +59,13 @@ process stays small.
 - Two arms for every humanoid figure.
 - Same face, costume and jewelry in every scene; the reborn figure keeps the same
   body, dhoti, sash and jewelry.
+
+## QA checked on out/ganesh-origin-60s.mp4
+- Format: 60.00 s, 1080×1920, 60 fps, H.264 + AAC. Loudness −13.7 LUFS, true peak −1.0 dBFS.
+- Contact sheet, one frame every 2.5 s (24 frames): the boy has a human head from
+  0 to 42.5 s. The symbolic elephant silhouette first appears at 45 s, inside the
+  41–51 s rebirth block.
+- Flash at 27.4 s: silhouette and light only, with no blood or gore.
+- Captions sit between roughly 1000 and 1170 px of 1920 px height, inside the safe area.
+- Not checked: every frame, a listen to the full mix, and the on-screen text against
+  the approved script (only script.json was used as the source).
