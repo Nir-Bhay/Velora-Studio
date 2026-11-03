@@ -1,0 +1,68 @@
+{
+  "film": "How MCP works — 40 s explainer",
+  "voice": "voice-02 (platform, Hindi narration, masculine)",
+  "rules": [
+    "One clip per scene, so the voice stays in the same take. Eight clips in total.",
+    "Each line starts when its scene starts and must fit inside that scene's window at the voice's natural pace (no speed-up, no pitch change in the primary cut).",
+    "Speaking pace of this voice is about 2.5 words per second. Lines are sized to about 80% of their window.",
+    "Hinglish: Hindi in Devanagari, technical and English words in Latin script."
+  ],
+  "lines": [
+    {
+      "id": "hook",
+      "t0": 0.3,
+      "t1": 4.9,
+      "scene": "hook",
+      "text": "हर AI app को, हर tool के लिए अलग plug चाहिए."
+    },
+    {
+      "id": "protocol",
+      "t0": 5.0,
+      "t1": 8.9,
+      "scene": "protocol",
+      "text": "MCP: एक standard plug."
+    },
+    {
+      "id": "roles",
+      "t0": 9.1,
+      "t1": 16.0,
+      "scene": "roles",
+      "text": "Host: आपकी AI app. Client: एक server से जुड़ा. Server: tools देता है."
+    },
+    {
+      "id": "transports",
+      "t0": 16.3,
+      "t1": 19.3,
+      "scene": "transports",
+      "text": "Local हो या remote."
+    },
+    {
+      "id": "offers",
+      "t0": 19.8,
+      "t1": 24.8,
+      "scene": "offers",
+      "text": "Server तीन चीज़ें देता है: tools, resources और prompts."
+    },
+    {
+      "id": "call",
+      "t0": 25.4,
+      "t1": 35.4,
+      "scene": "call",
+      "text": "पहले discover करो. फिर tools की list. फिर JSON से tool call करो. आख़िर में, result model तक."
+    },
+    {
+      "id": "control",
+      "t0": 35.5,
+      "t1": 38.0,
+      "scene": "control",
+      "text": "Host तय करता है."
+    },
+    {
+      "id": "end",
+      "t0": 38.3,
+      "t1": 40.0,
+      "scene": "end",
+      "text": "MCP."
+    }
+  ]
+}

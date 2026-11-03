@@ -117,3 +117,12 @@ The platform allows 10 generated clips per turn. Plan the first pass to fit, and
 
 **V5 · Keep the picture stream.** *(verified)*
 Mux the new audio onto the existing MP4 with `-c:v copy`, and verify the video stream is identical. This avoids a 60-second re-render.
+
+**V6 · Resample before any pitch or speed change.** *(verified, and it caused a bad release)*
+Symptom: the narration sounded fast and nasal in the MP4, but the platform preview sounded normal.
+Cause: `asetrate=48000*f` was applied to a 24 kHz clip. ffmpeg read the samples as 44 kHz, so the voice played about 1.8× too fast and pitched up.
+Fix: `aresample=48000` first, then `asetrate`, `aresample`, `atempo=1/f`. Verify with a before/after check: the length must match, and the median F0 must drop by the expected ratio.
+Rule: compare the MP4 to the raw clip, never trust the preview alone. Measure duration, sample rate, and F0 for every processed clip.
+
+**V7 · Write lines to the caption timing.** *(verified)*
+Lines that cover several captions drift out of sync. Give each line the window of its scene, and size it to about 80 % of that window at the voice's natural pace.
