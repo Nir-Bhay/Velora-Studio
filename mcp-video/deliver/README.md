@@ -29,3 +29,8 @@ Storyboard: `../STORYBOARD-v2.md`. Script and voice clips: `../voiceover/` (`scr
 These files are kept in git history and in this folder for reference. They are not on the films page.
 - `mcp-explainer-40s-9x16-1080p60-hinglish-vo.mp4` and `-vo-deep.mp4` — the earlier Hinglish cut. The audio came from a resample bug (`asetrate` before `aresample`), so the voice was fast and nasal. The user rejected it. The "heavier, no artifacts" claim about the deep cut was never checked by ear.
 - `mcp-explainer-40s-9x16-1080p60.mp4` — the English v1 film (sound design only, no narration). Its scenes are superseded by the v2 scene table, so its chapter markers no longer match `brand.mjs`.
+
+## v5 · aurora (current styling pass)
+
+- `mcp-explainer-v5-aurora-9x16-1080p60.mp4`: same picture layout as v4, new light aurora styling with glass cards and gradient accents. Same audio as v2. 40.00 s, −14.1 LUFS, true peak −1.7 dBTP. Source `film-v5.mjs`, storyboard `STORYBOARD-v5.md`.
+- `poster-v5-2s.png`: poster at 2 s.
