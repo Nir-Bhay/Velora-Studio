@@ -1,0 +1,15 @@
+{
+  "name": "mcp-explainer-video",
+  "private": true,
+  "type": "module",
+  "description": "How MCP works — a 40-second vertical explainer. Canvas + ffmpeg, pure seek(t), no footage.",
+  "scripts": {
+    "stills": "node render.mjs --stills",
+    "film": "node render.mjs --sub 2",
+    "qa": "node qa.mjs"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.80"
+  },
+  "engines": { "node": ">=20" }
+}
