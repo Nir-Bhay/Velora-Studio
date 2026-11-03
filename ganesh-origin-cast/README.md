@@ -40,11 +40,17 @@ Canvas used as a `drawImage` source leaked memory (about 3 MB per call), so a si
 `ctx.filter` for tint and blur. The build still renders in 5 s segments so each
 process stays small.
 
-## Known issue
-A render of 14–15 s exits with a segfault (code 139), while 10–14 s renders fine.
-The cause is not yet confirmed. Suspects: `blur()` with the rim shadow, a filter
-string on Parvati or Shiva, or a sheen clip with a negative width. Until this is
-fixed, the full build can stop at segment 2.
+## Status and known issue
+- Full build completed: `out/ganesh-origin-60s.mp4`, 60.00 s, 1080×1920, 60 fps,
+  integrated loudness −13.7 LUFS, true peak −1.0 dBFS.
+- An earlier build exited with a segfault (code 139) at 14–15 s. It did not
+  reproduce after the rebuild (14–15 s, and 10–15 s, rendered cleanly three times in
+  a row). The cause is not confirmed. Likely suspects were the blur and rim-shadow
+  filters, a filter string on Parvati or Shiva, or a sheen clip with a negative
+  width, and an earlier concurrent build may have been involved. If it returns,
+  run `node render/cast.mjs --from 14 --to 15` to reproduce.
+- VO clips and on-screen text come from `script.json`. Check them against the
+  approved script before posting.
 
 ## Rules followed
 - No blood, wounds or gore. Violence is shown through shadow, light and sound only.

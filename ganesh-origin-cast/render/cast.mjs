@@ -783,5 +783,5 @@ if (STILL !== null) {
   ff.stdin.end();
   const [code] = await once(ff, 'close');
   if (code !== 0) throw new Error(`ffmpeg exited ${code}`);
-  console.log('wrote out/video.mp4');
+  console.log(`wrote out/${outName}`);
 }
