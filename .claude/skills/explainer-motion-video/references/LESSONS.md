@@ -112,8 +112,8 @@ A clip may be sped up by ≤ 7 % with `atempo`. More than that sounds rushed, so
 **V3 · Per-turn generation cap.** *(verified)*
 The platform allows 10 generated clips per turn. Plan the first pass to fit, and keep spare capacity for re-takes.
 
-**V4 · Pitch-down for a heavier voice.** *(verified)*
-`asetrate` + `aresample` + `atempo` keeps the length. −1.5 semitones was enough to sound heavier without artifacts. Check the result by ear, and expect to adjust.
+**V4 · Pitch-down for a heavier voice.** *(corrected; the earlier claim was wrong)*
+The old note said −1.5 semitones "sounded heavier without artifacts". That was never checked by ear. The MP4 it was based on had the V6 bug, and the user rejected it as nasal and fast. Do not use this claim. A pitch change is only acceptable after the resample fix (V6) is in place and an F0 check confirms the ratio. The approved cut uses pitch 0 (the voice as generated, which matches the preview).
 
 **V5 · Keep the picture stream.** *(verified)*
 Mux the new audio onto the existing MP4 with `-c:v copy`, and verify the video stream is identical. This avoids a 60-second re-render.
@@ -123,6 +123,17 @@ Symptom: the narration sounded fast and nasal in the MP4, but the platform previ
 Cause: `asetrate=48000*f` was applied to a 24 kHz clip. ffmpeg read the samples as 44 kHz, so the voice played about 1.8× too fast and pitched up.
 Fix: `aresample=48000` first, then `asetrate`, `aresample`, `atempo=1/f`. Verify with a before/after check: the length must match, and the median F0 must drop by the expected ratio.
 Rule: compare the MP4 to the raw clip, never trust the preview alone. Measure duration, sample rate, and F0 for every processed clip.
+
+**V8 · Keep the loop's audio and picture on the same half second.** *(verified on the v2 film)*
+Symptom risk: a hard cut at the loop point clicks, and a silent gap reads as an ending.
+Fix: dissolve the picture into frame 0 over the last 0.5 s, and apply a 0.5 s cosine fade-out to the master on the same window. Check the seam by comparing the last frame with frame 0 (mean absolute difference on the luma plane, ~0.4 of 255 here), and check that the audio tail has no click.
+
+**V9 · Cross-fades stack text.** *(verified on the v2 film)*
+Symptom: at 28.6 s, the old proposal text showed through the new result card while both faded in.
+Fix: finish the outgoing text before the incoming text starts (for example 28.3–28.5 out, 28.5–28.8 in). Check the frame in the middle of the swap, not only the frame before or after.
+
+**V10 · Sync the picture to the voice's words, not to the scene edge.** *(verified)*
+Measure the peaks of each spoken phrase with silencedetect and time the card, tap, or click to them. In the v2 film, the four step cards land at 15.48, 17.25, 18.82, and 20.09 s, which are the spoken step boundaries.
 
 **V7 · Write lines to the caption timing.** *(verified)*
 Lines that cover several captions drift out of sync. Give each line the window of its scene, and size it to about 80 % of that window at the voice's natural pace.

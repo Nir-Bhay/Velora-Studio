@@ -1,0 +1,19 @@
+{
+  "film": "How MCP works — 40 s loop",
+  "voice": "voice-02 (masculine, Hinglish narration)",
+  "language": "hi-IN",
+  "style": "Hinglish: simple Hindi in Devanagari, English tech words in Latin script (AI, tool, plug, connection). Calm, heavy, unhurried. Short sentences. Explain what happens, not how it is built. Child-simple.",
+  "lines": [
+    { "id": "hook",     "clip": "s1-hook.wav",     "t0": 0.2,  "t1": 6.0,  "text": "चार AI apps, बारह tools. यानी अड़तालीस अलग connections!" },
+    { "id": "solution", "clip": "s3-solution.wav", "t0": 6.2,  "t1": 10.0, "text": "MCP: एक common plug. जैसे phone का charger." },
+    { "id": "waiter",   "clip": "s4-waiter.wav",   "t0": 10.2, "t1": 15.0, "text": "Waiter जैसा. आप order देते हो, वो kitchen तक जाता है." },
+    { "id": "steps",    "clip": "s5-steps.wav",    "t0": 15.2, "t1": 25.0, "text": "पहले AI पूछता है: तुम क्या कर सकते हो? Tool बताता है. फिर काम होता है. आख़िर में AI आपको बताता है." },
+    { "id": "control",  "clip": "s6-control.wav",  "t0": 25.4, "t1": 31.0, "text": "AI सिर्फ सुझाता है. आप haan बोलो, तभी काम होगा." },
+    { "id": "newtool",  "clip": "s7-new.wav",      "t0": 31.2, "t1": 35.0, "text": "नया tool? बस एक और plug." },
+    { "id": "loop",     "clip": "s8-loop.wav",     "t0": 35.2, "t1": 39.5, "text": "हर app का अलग plug? अब नहीं." }
+  ],
+  "unused": [
+    { "clip": "s2-problem.wav", "reason": "Not used. Its idea is on screen as the caption 'har AI x har tool = alag connection', so the narration stays short." }
+  ],
+  "loop": "The last line ends at 38.6 s. The picture dissolves into frame 0 over 39.5–40 s, and the audio fades out over the same half second. There is no end card."
+}

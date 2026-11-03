@@ -1,19 +1,18 @@
-# How MCP works — 40-second vertical explainer
+# How MCP works — 40-second loop, 9:16
 
-- **`mcp-explainer-40s-9x16-1080p60.mp4`** — the film. 1080×1920 (9:16), 60 fps, 40.0 s, H.264 High + AAC 48 kHz stereo, −14.8 LUFS, true peak −1 dBTP.
-- `poster-2s.png` — the cover frame (the "48 custom plugs" hook).
-- `contact-sheet.png` — one frame per second, the whole film at a glance.
+**Current film:** `mcp-explainer-v2-loop-9x16-1080p60.mp4`
+- 1080×1920 (9:16), 60 fps, 40.00 s, H.264 High + AAC 48 kHz stereo.
+- Narration: Hinglish, `voice-02`, the approved voice at its natural pace (pitch 0).
+- Loudness −14.1 LUFS integrated, true peak −1.7 dBTP.
+- Loops with no end card. The last half-second dissolves into frame 0 and the audio fades under it.
+- `poster-v2-2s.png` — the 2-second cover frame.
 
-Built to work with the sound off: every idea is on screen as a headline or caption.
+Scenes: problem, 48 connections (0–6 s) · one plug (6–10) · like a waiter (10–15) · four steps (15–25) · you decide, haan (25–31) · new tool (31–35) · loop (35–40).
 
-Scenes: hook (0–5 s) · one protocol (5–9) · three roles (9–16) · two transports (16–19.5) · three offers (19.5–25) · the call, four steps (25–35.5) · who decides (35.5–38) · end card (38–40).
+Storyboard: `../STORYBOARD-v2.md`. Script and voice clips: `../voiceover/` (`script.v2.json`). Build: `node render.mjs` (picture) then `node voiceover/assemble.mjs --pitch 0`.
 
-Source, research notes and the beat sheet: `../STORYBOARD.md`. Build: `node render.mjs --sub 2 --audio out/audio-master.wav` after `node audio.mjs`. Checks: `node qa.mjs`.
+## Retired — do not present
 
-## Hinglish voice-over versions
-
-- `mcp-explainer-40s-9x16-1080p60-hinglish-vo.mp4` — the Hinglish narration as generated (voice `voice-02`, natural pitch). −14.1 LUFS, true peak −1.8 dBTP.
-- `mcp-explainer-40s-9x16-1080p60-hinglish-vo-deep.mp4` — the same narration, one semitone lower. −14.2 LUFS, true peak −1.3 dBTP.
-- Both: the video stream is identical to `mcp-explainer-40s-9x16-1080p60.mp4`. The sound design is ducked under the voice.
-- Built by `voiceover/assemble.mjs`. Script: `voiceover/script.hinglish-v3.json`.
-- The original `mcp-explainer-40s-9x16-1080p60.mp4` (sound only) is unchanged.
+These files are kept in git history and in this folder for reference. They are not on the films page.
+- `mcp-explainer-40s-9x16-1080p60-hinglish-vo.mp4` and `-vo-deep.mp4` — the earlier Hinglish cut. The audio came from a resample bug (`asetrate` before `aresample`), so the voice was fast and nasal. The user rejected it. The "heavier, no artifacts" claim about the deep cut was never checked by ear.
+- `mcp-explainer-40s-9x16-1080p60.mp4` — the English v1 film (sound design only, no narration). Its scenes are superseded by the v2 scene table, so its chapter markers no longer match `brand.mjs`.

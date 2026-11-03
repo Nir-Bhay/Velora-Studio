@@ -36,60 +36,41 @@ export const F = {
   monoB: 'JBBold',
 };
 
-// Scene table: name, start, end (seconds). Every boundary is a multiple of BEAT.
+// Scene table. Each cut sits on the 120 BPM grid (multiples of 0.5 s), and each scene window
+// is sized to its narration clip (voiceover/out/v2). The loop closes at DUR: the last 0.5 s
+// dissolve into the opening frame, so the film repeats with no end card.
 export const SCENES = [
-  { id: 'hook', t0: 0.0, t1: 5.0 },
-  { id: 'protocol', t0: 5.0, t1: 9.0 },
-  { id: 'roles', t0: 9.0, t1: 16.0 },
-  { id: 'transports', t0: 16.0, t1: 19.5 },
-  { id: 'offers', t0: 19.5, t1: 25.0 },
-  { id: 'call', t0: 25.0, t1: 35.5 },
-  { id: 'control', t0: 35.5, t1: 38.0 },
-  { id: 'end', t0: 38.0, t1: 40.0 },
+  { id: 'hook',     t0: 0.0,  t1: 6.0,  label: 'The problem' },
+  { id: 'solution', t0: 6.0,  t1: 10.0, label: 'One plug' },
+  { id: 'waiter',   t0: 10.0, t1: 15.0, label: 'Like a waiter' },
+  { id: 'steps',    t0: 15.0, t1: 25.0, label: 'Four steps' },
+  { id: 'control',  t0: 25.0, t1: 31.0, label: 'You decide' },
+  { id: 'newtool',  t0: 31.0, t1: 35.0, label: 'Add a tool' },
+  { id: 'loop',     t0: 35.0, t1: 40.0, label: 'Again' },
 ];
+export const LOOP_DISSOLVE_FROM = 39.5; // the final 0.5 s blends into frame 0
 
-// Every sound event, as seconds of PICTURE time. The audio engine places each
-// peak at t + 1 frame (the article's sync rule: the hit lands one frame after its visual).
-// kinds: slam, thock, tick, pop, whoosh, bloop, snap, chime, type, kick
+// Every sound event, in seconds of PICTURE time. audio.mjs places each peak at t + 1 frame.
+// kinds: slam, thock, tick, pop, whoosh, bloop, snap, chime
 export const EVENTS = [
-  // A · hook
-  { t: 0.0, k: 'slam' }, { t: 0.5, k: 'slam' },
-  { t: 1.0, k: 'whoosh' },
-  ...Array.from({ length: 25 }, (_, i) => ({ t: 1.0 + i * 0.04, k: 'tick' })),
-  { t: 2.0, k: 'thock' },
-  { t: 3.0, k: 'whoosh' }, { t: 3.4, k: 'slam' }, { t: 3.5, k: 'snap' },
-  ...Array.from({ length: 12 }, (_, i) => ({ t: 3.6 + i * 0.066, k: 'tick' })),
-  { t: 4.4, k: 'chime' },
-  // B · protocol
-  { t: 5.0, k: 'slam' }, { t: 5.5, k: 'whoosh' }, { t: 6.3, k: 'thock' },
-  ...Array.from({ length: 12 }, (_, j) => ({ t: 6.5 + j * 0.05, k: 'pop' })),
-  { t: 7.3, k: 'tick' }, { t: 7.9, k: 'tick' },
-  // C · roles
-  { t: 9.0, k: 'slam' }, { t: 9.5, k: 'thock' }, { t: 10.0, k: 'whoosh' },
-  { t: 10.5, k: 'pop' }, { t: 11.0, k: 'pop' }, { t: 11.5, k: 'whoosh' },
-  { t: 12.0, k: 'thock' }, { t: 12.5, k: 'thock' },
-  { t: 13.0, k: 'bloop' }, { t: 13.5, k: 'bloop' }, { t: 14.0, k: 'bloop' }, { t: 14.5, k: 'bloop' },
-  { t: 15.0, k: 'chime' },
-  // D · transports
-  { t: 16.0, k: 'slam' }, { t: 16.5, k: 'whoosh' }, { t: 16.6, k: 'thock' },
-  { t: 17.5, k: 'whoosh' }, { t: 17.6, k: 'thock' },
-  { t: 18.0, k: 'bloop' }, { t: 18.5, k: 'bloop' }, { t: 19.0, k: 'tick' },
-  // E · offers
-  { t: 19.5, k: 'slam' },
-  { t: 20.0, k: 'thock' }, { t: 21.0, k: 'thock' }, { t: 22.0, k: 'thock' },
-  { t: 23.0, k: 'chime' }, { t: 23.5, k: 'tick' }, { t: 24.0, k: 'tick' },
-  // F · the call
-  { t: 25.0, k: 'pop' }, { t: 25.0, k: 'slam' }, { t: 25.5, k: 'slam' },
-  { t: 25.5, k: 'pop' }, { t: 25.6, k: 'bloop' }, { t: 26.0, k: 'bloop' }, { t: 26.4, k: 'bloop' }, { t: 26.8, k: 'bloop' },
-  ...Array.from({ length: 6 }, (_, i) => ({ t: 25.7 + i * 0.12, k: 'type' })),
-  { t: 28.0, k: 'pop' }, { t: 28.1, k: 'bloop' }, { t: 28.5, k: 'bloop' }, { t: 28.9, k: 'bloop' }, { t: 29.3, k: 'bloop' },
-  ...Array.from({ length: 6 }, (_, i) => ({ t: 28.2 + i * 0.12, k: 'type' })),
-  { t: 30.5, k: 'pop' }, { t: 30.6, k: 'bloop' }, { t: 31.0, k: 'bloop' }, { t: 31.8, k: 'bloop' }, { t: 32.2, k: 'bloop' },
-  ...Array.from({ length: 8 }, (_, i) => ({ t: 30.7 + i * 0.12, k: 'type' })),
-  { t: 33.0, k: 'pop' }, { t: 33.1, k: 'type' }, { t: 33.3, k: 'type' }, { t: 33.5, k: 'type' },
-  { t: 34.5, k: 'pop' }, { t: 35.0, k: 'chime' },
-  // G · control
-  { t: 35.5, k: 'thock' }, { t: 36.5, k: 'thock' }, { t: 37.5, k: 'thock' },
-  // H · end
-  { t: 38.0, k: 'whoosh' }, { t: 38.5, k: 'chime' }, { t: 39.0, k: 'tick' }, { t: 39.5, k: 'pop' },
-].sort((a, b) => a.t - b.t);
+  // 1 · the problem (0–6): the 48 wires are already there; the counter rolls
+  { t: 0.0, k: 'slam' },
+  ...Array.from({ length: 20 }, (_, i) => ({ t: 0.2 + i * 0.06, k: 'tick' })),
+  { t: 1.5, k: 'thock' }, { t: 2.5, k: 'pop' }, { t: 3.5, k: 'thock' },
+  // 2 · one plug (6–10): the wires fold into one socket
+  { t: 6.1, k: 'whoosh' },
+  ...Array.from({ length: 8 }, (_, i) => ({ t: 6.2 + i * 0.1, k: 'tick' })),
+  { t: 6.9, k: 'snap' }, { t: 7.6, k: 'chime' }, { t: 8.4, k: 'pop' },
+  // 3 · the waiter (10–15): the order slip travels
+  { t: 10.0, k: 'slam' }, { t: 10.6, k: 'whoosh' }, { t: 11.4, k: 'pop' }, { t: 12.2, k: 'pop' },
+  { t: 13.0, k: 'bloop' }, { t: 14.4, k: 'chime' },
+  // 4 · four steps (15–25): one sound per card, on the voice's word
+  { t: 15.2, k: 'pop' }, { t: 15.48, k: 'pop' }, { t: 17.25, k: 'bloop' },
+  { t: 18.82, k: 'thock' }, { t: 20.09, k: 'chime' },
+  // 5 · you decide (25–31): the tap lands on "haan"
+  { t: 25.0, k: 'slam' }, { t: 25.5, k: 'pop' }, { t: 28.2, k: 'thock' }, { t: 28.5, k: 'chime' },
+  // 6 · add a tool (31–35): the tile drops and clicks in
+  { t: 31.1, k: 'whoosh' }, { t: 32.0, k: 'thock' }, { t: 33.0, k: 'snap' }, { t: 33.3, k: 'chime' },
+  // 7 · loop (35–40): the closing slam, then the dissolve
+  { t: 35.0, k: 'slam' }, { t: 37.2, k: 'thock' },
+];

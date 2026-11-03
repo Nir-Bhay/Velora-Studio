@@ -2,7 +2,7 @@
 
 A vertical explainer built the way the Opus 5.5 motion-lab article describes: every frame is a pure function of time, sound is synthesized in code and lands one frame after its picture, the mix is loudness-matched to −14 LUFS. The storyboard and the research behind it are in **`STORYBOARD.md`**.
 
-Deliverable: **`deliver/mcp-explainer-40s-9x16-1080p60.mp4`**.
+Deliverable: **`deliver/mcp-explainer-v2-loop-9x16-1080p60.mp4`** (40 s loop with Hinglish narration; see `STORYBOARD-v2.md` and `voiceover/`).
 
 ## Run it
 

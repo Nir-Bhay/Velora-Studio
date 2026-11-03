@@ -5,8 +5,9 @@
 //   node render.mjs --stills 0.4,3.2,12,27        PNG frames at those seconds (look first)
 //   node render.mjs --range 0 6                   render only 0–6 s, to test a change cheaply
 //   node render.mjs --sub 1                       no motion blur (a fast draft)
-//   node render.mjs                               the full film → out/mcp-explainer.mp4
+//   node render.mjs                               the full film (video only) → out/mcp-explainer-v2.mp4
 //   node render.mjs --audio out/audio-master.wav  mux a soundtrack (loudness set to −14 LUFS)
+//   node render.mjs --out x.mp4                   a different output name
 //
 // MOTION BLUR: each output frame is the average of `sub` subframes spread over half a frame
 // (a 180° shutter). Subframe i lands at weight 1/(i+1) via successive source-over draws,
@@ -92,9 +93,9 @@ async function main() {
   const f0 = Math.round(a * FPS);
   const f1 = Math.round(Math.min(b, DUR) * FPS);
   const N = f1 - f0;
-  const name = String(arg('out', 'mcp-explainer.mp4'));
+  const name = String(arg('out', 'mcp-explainer-v2.mp4'));
   const audio = arg('audio');
-  const videoOnly = join(OUT, 'picture.mp4');
+  const videoOnly = join(OUT, 'picture-v2.mp4'); // video only; assemble.mjs and the mux step read it
   const final = join(OUT, name);
 
   console.log(`rendering ${N} frames (${(N / FPS).toFixed(2)} s) · sub ${sub} · ${W}×${H}@${FPS}`);

@@ -21,9 +21,10 @@ const MCP = resolve(HERE, '..');
 const FFMPEG = process.env.FFMPEG || join(MCP, 'tools', 'ffmpeg');
 const arg = (name, def) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : def; };
 const PITCH = Number(arg('--pitch', '0'));            // semitones; 0 = the voice as generated
-const CLIPS = resolve(HERE, arg('--clips', 'out/clips-v3'));
-const SCRIPT = join(HERE, arg('--script', 'script.hinglish-v3.json'));
-const OUT_NAME = arg('--out', 'mcp-explainer-40s-9x16-1080p60-hinglish-vo.mp4');
+const CLIPS = resolve(HERE, arg('--clips', 'out/v2'));
+const SCRIPT = join(HERE, arg('--script', 'script.v2.json'));
+const OUT_NAME = arg('--out', 'mcp-explainer-v2-loop-9x16-1080p60.mp4');
+const PICTURE = join(MCP, 'out', 'picture-v2.mp4'); // video-only, from render.mjs (no audio)
 const SR = 48000;
 
 const script = JSON.parse(readFileSync(SCRIPT, 'utf8'));
@@ -47,7 +48,7 @@ function probe(file) {
 // 1 · fit check at natural pace
 const placed = [];
 for (const line of script.lines) {
-  const clip = join(CLIPS, `${line.id}.wav`);
+  const clip = join(CLIPS, line.clip ?? `${line.id}.wav`);
   if (!existsSync(clip)) throw new Error(`missing clip ${clip}`);
   const { seconds: d, rate } = probe(clip);
   const window = line.t1 - line.t0;
@@ -97,7 +98,7 @@ const finalWav = join(work, `final-pitch${PITCH}.wav`);
 ff(['-i', mixWav, '-af', `${lnFilter},alimiter=limit=0.7943:attack=5:release=60:level=disabled`, '-ar', String(SR), '-ac', '2', finalWav]);
 
 // 5 · mux onto the picture (video copied, not re-rendered)
-const picture = join(MCP, 'deliver', 'mcp-explainer-40s-9x16-1080p60.mp4');
+const picture = PICTURE;
 const outFile = join(MCP, 'deliver', OUT_NAME);
 ff(['-i', picture, '-i', finalWav, '-map', '0:v:0', '-map', '1:a:0', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', String(SR), '-movflags', '+faststart', '-t', '40', outFile]);
 

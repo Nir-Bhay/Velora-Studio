@@ -6,7 +6,7 @@
 //
 //   node audio.mjs                 → out/audio-master.wav (48 kHz stereo, 40.000 s)
 //
-// Bed: a soft 120 BPM pulse (kick on each beat, 8th-note hats from the call scene) and a
+// Bed: a soft 120 BPM pulse (kick on each beat, 8th-note hats from 15 s) and a
 // slow pad that follows the chord per bar. Hits sit well above the bed.
 
 import { writeFile, mkdir } from 'node:fs/promises';
@@ -101,13 +101,13 @@ function bed() {
   // kick on every beat, quiet
   for (let b = 0; b * beatSec < DUR - 1.2; b++) {
     const t0 = b * beatSec;
-    if (t0 > 38.0) break;
+    if (t0 > DUR - 0.5) break;
     place(t0 * SR, 0.3 * SR, 0.35, 0, (t) => Math.sin(2 * Math.PI * (48 + 60 * Math.exp(-t * 35)) * t) * decay(t, 0.12) * attack(t, 0.002));
   }
-  // 8th-note hats from the call scene on
-  for (let e = 0; e * beatSec / 2 < 38.0; e++) {
+  // 8th-note hats from 15 s on (the steps scene), running to the end so the loop tail has the same groove
+  for (let e = 0; e * beatSec / 2 < DUR - 0.5; e++) {
     const t0 = e * beatSec / 2;
-    if (t0 < 25.0) continue;
+    if (t0 < 15.0) continue;
     place(t0 * SR, 0.05 * SR, 0.05, e % 2 ? 0.3 : -0.3, (t) => rnd() * decay(t, 0.012) * attack(t, 0.0005));
   }
   // pad: a slow chord per bar (4 beats = 2 s), fading in and out of the film
@@ -129,18 +129,20 @@ bed();
 
 const pan = (k, t) => (k === 'whoosh' ? Math.max(-0.5, Math.min(0.5, -0.6 + (t / DUR) * 0.6)) : 0);
 
-for (const ev of EVENTS) {
-  const k = ev.k;
+for (const ev0 of EVENTS) {
+  const k = ev0.k;
+  // events past DUR wrap to the start: the film loops, so a late hit belongs to the next play-through's opening
+  const et = ev0.t >= DUR ? ev0.t - DUR : ev0.t;
   // the frame after the picture event
-  const onset = (ev.t + 1 / FPS) * SR;
+  const onset = (et + 1 / FPS) * SR;
   if (k === 'whoosh') {
     const buf = whooshBuffer(Math.round(0.9 * SR));
     const n0 = Math.round(onset);
     for (let i = 0; i < buf.length; i++) {
       const idx = n0 + i;
       if (idx >= N) break;
-      L[idx] += buf[i] * 0.5 * Math.sqrt(0.5 * (1 - pan(k, ev.t)));
-      R[idx] += buf[i] * 0.5 * Math.sqrt(0.5 * (1 + pan(k, ev.t)));
+      L[idx] += buf[i] * 0.5 * Math.sqrt(0.5 * (1 - pan(k, et)));
+      R[idx] += buf[i] * 0.5 * Math.sqrt(0.5 * (1 + pan(k, et)));
     }
     continue;
   }
@@ -154,7 +156,14 @@ for (const ev of EVENTS) {
 const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
 const mL = mean(L), mR = mean(R);
 let peak = 0;
-for (let i = 0; i < N; i++) { L[i] -= mL; R[i] -= mR; peak = Math.max(peak, Math.abs(L[i]), Math.abs(R[i])); }
+// 0.5 s cosine fade-out to silence at DUR. The picture dissolves into frame 0 over the same half second,
+// so the loop point has no click and no hard cut; the opening slam then arrives on a clean floor.
+const FADE0 = N - Math.round(0.5 * SR);
+for (let i = 0; i < N; i++) {
+  const g = i >= FADE0 ? 0.5 + 0.5 * Math.cos((Math.PI * (i - FADE0)) / (N - FADE0)) : 1;
+  L[i] = (L[i] - mL) * g; R[i] = (R[i] - mR) * g;
+  peak = Math.max(peak, Math.abs(L[i]), Math.abs(R[i]));
+}
 const norm = peak > 0.95 ? 0.95 / peak : 1;
 
 // 16-bit PCM WAV, stereo
