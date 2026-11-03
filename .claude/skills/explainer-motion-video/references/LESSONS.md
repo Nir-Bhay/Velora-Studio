@@ -97,3 +97,23 @@ captions only) before the render, and write the narration track with the scene t
 **P2 · Verify every fact on screen against its source.** *(verified)*
 The MCP facts (three roles, JSON-RPC 2.0, the primitives, the transports) were checked against the
 protocol docs. Re-read the source before the final render and record it in the storyboard.
+
+## Voice-over (Hindi / Hinglish)
+
+**V1 · Hindi narration ran too long for its window.** *(verified)*
+Symptom: the hook clip was 5.9 s in a 4.5 s slot; the end clip was 3.7 s in a 1.7 s slot.
+Cause: this voice speaks at about 2 words per second in calm Hinglish. The word count wasn't checked against the window.
+Fix: measure each clip with ffmpeg, then rewrite the line or widen the window into the silence before the next scene.
+Rule: write each line for about 2 words per second, and have the build fail when a clip is over its window (see `assemble.mjs`).
+
+**V2 · Speed-up is a last resort.** *(verified)*
+A clip may be sped up by ≤ 7 % with `atempo`. More than that sounds rushed, so rewrite the line instead.
+
+**V3 · Per-turn generation cap.** *(verified)*
+The platform allows 10 generated clips per turn. Plan the first pass to fit, and keep spare capacity for re-takes.
+
+**V4 · Pitch-down for a heavier voice.** *(verified)*
+`asetrate` + `aresample` + `atempo` keeps the length. −1.5 semitones was enough to sound heavier without artifacts. Check the result by ear, and expect to adjust.
+
+**V5 · Keep the picture stream.** *(verified)*
+Mux the new audio onto the existing MP4 with `-c:v copy`, and verify the video stream is identical. This avoids a 60-second re-render.

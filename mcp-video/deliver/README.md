@@ -9,3 +9,9 @@ Built to work with the sound off: every idea is on screen as a headline or capti
 Scenes: hook (0–5 s) · one protocol (5–9) · three roles (9–16) · two transports (16–19.5) · three offers (19.5–25) · the call, four steps (25–35.5) · who decides (35.5–38) · end card (38–40).
 
 Source, research notes and the beat sheet: `../STORYBOARD.md`. Build: `node render.mjs --sub 2 --audio out/audio-master.wav` after `node audio.mjs`. Checks: `node qa.mjs`.
+
+## Hinglish voice-over version
+
+- `mcp-explainer-40s-9x16-1080p60-hinglish-vo.mp4` — the same picture, with a Hinglish narration (platform voice `voice-02`) pitched down 1.5 semitones, ducked under the existing sound design. Loudness −14.5 LUFS, true peak −1.6 dBFS. The video stream is identical to the original.
+- The original `mcp-explainer-40s-9x16-1080p60.mp4` (sound only) is unchanged.
+- Built by `voiceover/assemble.mjs`. The `end` card has no narration yet.

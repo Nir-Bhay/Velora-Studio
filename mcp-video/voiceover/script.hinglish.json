@@ -1,0 +1,52 @@
+{
+  "film": "How MCP works — 40 s explainer",
+  "language": "hi-IN",
+  "style": "Hinglish: Hindi in Devanagari, technical and English words in Latin script. Calm, heavy, unhurried. Short sentences. Pauses at commas and full stops.",
+  "lines": [
+    {
+      "id": "hook",
+      "t0": 0.2,
+      "t1": 5.1,
+      "text": "चार AI apps. बारह tools. अड़तालीस plugs."
+    },
+    {
+      "id": "protocol",
+      "t0": 5.2,
+      "t1": 8.95,
+      "text": "MCP इसे बदल देता है. One standard plug."
+    },
+    {
+      "id": "roles",
+      "t0": 9.1,
+      "t1": 16.2,
+      "text": "तीन roles: Host, Client, और Server. हर Client, एक ही Server से connect होता है."
+    },
+    {
+      "id": "transports",
+      "t0": 16.3,
+      "t1": 19.5,
+      "text": "Local हो या remote, rule एक ही है."
+    },
+    {
+      "id": "offers",
+      "t0": 19.8,
+      "t1": 25.0,
+      "text": "Server तीन चीज़ें offer करता है: tools, resources और prompts."
+    },
+    {
+      "id": "call",
+      "t0": 25.4,
+      "t1": 35.0,
+      "text": "पहले, discover करो कि server क्या कर सकता है. फिर tools की list. फिर JSON से tool call करो. आख़िर में, result model तक."
+    },
+    {
+      "id": "control",
+      "t0": 35.5,
+      "t1": 38.0,
+      "text": "Host decide करता है."
+    }
+  ],
+  "deferred": [
+    "end: \"MCP. One standard plug.\" needs a 1.7s window; the clip is 3.7s. Re-write as a short tag next turn."
+  ]
+}
