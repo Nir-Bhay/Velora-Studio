@@ -3,6 +3,82 @@
   "note": "Generated. Do not edit by hand. Run: node scripts/build-films-manifest.mjs",
   "films": [
     {
+      "id": "shiva-ganesha",
+      "title": "Shiva and Ganesha · the story",
+      "kind": "Story film · 60 s · Hinglish narration",
+      "summary": "The story of Ganesha in one minute. Parvati makes a child from haldi and sets him to guard the door. Shiva is stopped at the door, the child is beheaded, and Shiva restores him with an elephant head. Then Ganesha is worshipped first.",
+      "src": "shiva-ganesha-video/deliver/shiva-ganesha-9x16-1080p60.mp4",
+      "poster": "shiva-ganesha-video/deliver/poster-2s.png",
+      "aspect": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "duration": 60,
+      "specs": [
+        "1080×1920 · 60 fps · H.264 + AAC",
+        "Hinglish narration (voice-03), synthesized bed",
+        "−14 LUFS · true peak −1 dBTP"
+      ],
+      "chapters": [
+        {
+          "id": "hook",
+          "label": "The question",
+          "t0": 0,
+          "t1": 6
+        },
+        {
+          "id": "creation",
+          "label": "Haldi",
+          "t0": 6,
+          "t1": 12.5
+        },
+        {
+          "id": "door",
+          "label": "The order",
+          "t0": 12.5,
+          "t1": 18.5
+        },
+        {
+          "id": "arrival",
+          "label": "Shiva arrives",
+          "t0": 18.5,
+          "t1": 25
+        },
+        {
+          "id": "cut",
+          "label": "The moment",
+          "t0": 25,
+          "t1": 32
+        },
+        {
+          "id": "grief",
+          "label": "Parvati",
+          "t0": 32,
+          "t1": 40
+        },
+        {
+          "id": "search",
+          "label": "The search",
+          "t0": 40,
+          "t1": 47.5
+        },
+        {
+          "id": "restore",
+          "label": "New life",
+          "t0": 47.5,
+          "t1": 54.5
+        },
+        {
+          "id": "boon",
+          "label": "The boon",
+          "t0": 54.5,
+          "t1": 60
+        }
+      ],
+      "source": "shiva-ganesha-video/brand.mjs",
+      "voiceNote": "Storyboard: shiva-ganesha-video/STORYBOARD.md. Story source: Shiva Purana, Rudra Samhita (Kumara Khanda) ch. 13–18."
+    },
+    {
       "id": "mcp-explainer-v3",
       "title": "How MCP works",
       "kind": "Explainer · 40 s · loops",

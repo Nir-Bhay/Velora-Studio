@@ -11,6 +11,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const rel = (p) => p.split('\\').join('/');
 
 const brand = await import(pathToFileURL(join(ROOT, 'mcp-video', 'brand.mjs')).href);
+const shivaBrand = await import(pathToFileURL(join(ROOT, 'shiva-ganesha-video', 'brand.mjs')).href);
 const samyojRender = JSON.parse(await readFile(join(ROOT, 'samyoj-video', 'deliver', 'render.json'), 'utf8'));
 
 // Human labels for each scene id. A missing id is a build error, so new scenes get a label.
@@ -48,7 +49,26 @@ function chapters(scenes, labels, duration, film) {
   return out;
 }
 
+const SHIVA_LABELS = {
+  hook: 'The question', creation: 'Haldi', door: 'The order', arrival: 'Shiva arrives',
+  cut: 'The moment', grief: 'Parvati', search: 'The search', restore: 'New life', boon: 'The boon',
+};
+
 const films = [
+  {
+    id: 'shiva-ganesha',
+    title: 'Shiva and Ganesha · the story',
+    kind: 'Story film · 60 s · Hinglish narration',
+    summary: 'The story of Ganesha in one minute. Parvati makes a child from haldi and sets him to guard the door. Shiva is stopped at the door, the child is beheaded, and Shiva restores him with an elephant head. Then Ganesha is worshipped first.',
+    src: 'shiva-ganesha-video/deliver/shiva-ganesha-9x16-1080p60.mp4',
+    poster: 'shiva-ganesha-video/deliver/poster-2s.png',
+    aspect: '9:16',
+    width: shivaBrand.W, height: shivaBrand.H, fps: shivaBrand.FPS, duration: shivaBrand.DUR,
+    specs: ['1080×1920 · 60 fps · H.264 + AAC', 'Hinglish narration (voice-03), synthesized bed', '−14 LUFS · true peak −1 dBTP'],
+    chapters: chapters(shivaBrand.SCENES, SHIVA_LABELS, shivaBrand.DUR, 'shiva-ganesha'),
+    source: 'shiva-ganesha-video/brand.mjs',
+    voiceNote: 'Storyboard: shiva-ganesha-video/STORYBOARD.md. Story source: Shiva Purana, Rudra Samhita (Kumara Khanda) ch. 13–18.',
+  },
   {
     id: 'mcp-explainer-v3',
     title: 'How MCP works',

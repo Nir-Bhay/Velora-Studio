@@ -1,0 +1,10 @@
+{
+  "name": "shiva-ganesha-video",
+  "private": true,
+  "type": "module",
+  "description": "Shiva and Ganesha, the story in about 60 seconds. Canvas + ffmpeg, pure draw(t), no footage.",
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.80"
+  },
+  "engines": { "node": ">=20" }
+}
