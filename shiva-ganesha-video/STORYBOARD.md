@@ -19,7 +19,7 @@ Variants in other Puranas (Skanda, Brahma Vaivarta; the Shani and Gajasura accou
   (vertical-video hook guides, 2025–26). The first line is a question: "Apne hi bete ka sir kaata?"
 - Captions on every line, lighting up word by word as they are spoken (silent viewing).
 - Analog texture: grain and paper (2026 motion trend reports). Cut-paper cards with hand-cut edges.
-- Kinetic type drives the story; one liquid-glass accent only (the boon chips use paper, not glass).
+- Kinetic type drives the story. Surfaces are paper cards and solid chips. The liquid-glass panel is built in lib/paint.mjs but not used in this cut.
 - Modular layout: paper cards and chips, not one diagram.
 - Palette from the story, not a default: haldi gold, sindoor vermilion, cream, cocoa ink. No
   blue or purple, and no flat black.
