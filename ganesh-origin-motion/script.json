@@ -1,0 +1,137 @@
+{
+  "title": "भगवान गणेश की उत्पत्ति — Motion v2",
+  "width": 1080,
+  "height": 1920,
+  "fps": 60,
+  "duration": 60,
+  "scenes": [
+    {
+      "id": 1,
+      "start": 0,
+      "end": 5,
+      "label": "भगवान गणेश की उत्पत्ति",
+      "grade": "blue",
+      "vo": "audio/vo-01.mp3",
+      "voStart": 0.3,
+      "caption": [
+        "कैलाश की उस रात,",
+        "एक अनसुनी कथा"
+      ],
+      "highlight": [
+        "रात"
+      ]
+    },
+    {
+      "id": 2,
+      "start": 5,
+      "end": 14,
+      "label": "सृष्टि का आरंभ",
+      "grade": "gold",
+      "vo": "audio/vo-02.mp3",
+      "voStart": 0.3,
+      "caption": [
+        "हल्दी से रचा बालक,",
+        "प्राण फूँके गए"
+      ],
+      "highlight": [
+        "प्राण"
+      ]
+    },
+    {
+      "id": 3,
+      "start": 14,
+      "end": 21,
+      "label": "आज्ञा का द्वार",
+      "grade": "gold",
+      "vo": "audio/vo-03.mp3",
+      "voStart": 0.3,
+      "caption": [
+        "बिना आज्ञा",
+        "कोई भीतर नहीं"
+      ],
+      "highlight": [
+        "आज्ञा"
+      ]
+    },
+    {
+      "id": 4,
+      "start": 21,
+      "end": 27,
+      "label": "अडिग बालक",
+      "grade": "blue",
+      "vo": "audio/vo-04.mp3",
+      "voStart": 0.3,
+      "caption": [
+        "भोलेनाथ लौटे,",
+        "बालक अडिग रहा"
+      ],
+      "highlight": [
+        "अडिग"
+      ]
+    },
+    {
+      "id": 5,
+      "start": 27,
+      "end": 35,
+      "label": "प्रकाश",
+      "grade": "storm",
+      "vo": "audio/vo-05.mp3",
+      "voStart": 0.3,
+      "caption": [
+        "एक तेज़ प्रकाश",
+        "पूरा कैलाश थम गया"
+      ],
+      "highlight": [
+        "प्रकाश"
+      ]
+    },
+    {
+      "id": 6,
+      "start": 35,
+      "end": 41,
+      "label": "शोक",
+      "grade": "red",
+      "vo": "audio/vo-06.mp3",
+      "voStart": 0.3,
+      "caption": [
+        "माँ पार्वती का हृदय टूटा",
+        "शोक गूँजा ब्रह्मांड में"
+      ],
+      "highlight": [
+        "शोक"
+      ]
+    },
+    {
+      "id": 7,
+      "start": 41,
+      "end": 51,
+      "label": "वचन",
+      "grade": "gold",
+      "vo": "audio/vo-07.mp3",
+      "voStart": 0.8,
+      "caption": [
+        "शिव का वचन:",
+        "उत्तर दिशा का सिर"
+      ],
+      "highlight": [
+        "वचन"
+      ]
+    },
+    {
+      "id": 8,
+      "start": 51,
+      "end": 60,
+      "label": "प्रथम पूजन",
+      "grade": "gold",
+      "vo": "audio/vo-08.mp3",
+      "voStart": 0.3,
+      "caption": [
+        "हर शुभ कार्य का",
+        "प्रथम पूजन: श्री गणेश"
+      ],
+      "highlight": [
+        "श्री गणेश"
+      ]
+    }
+  ]
+}
