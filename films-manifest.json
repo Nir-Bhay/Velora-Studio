@@ -73,6 +73,76 @@
       "voiceNote": "Sound-only at the moment. The voice-over is not yet added (see .claude/skills/explainer-motion-video)."
     },
     {
+      "id": "mcp-explainer-hinglish",
+      "title": "How MCP works · Hinglish voice-over",
+      "kind": "Explainer · 40 s · with narration",
+      "summary": "The same 40-second explainer, now with a calm, heavier Hinglish narration (Hindi with English tech words), pitched down slightly and mixed under the sound design.",
+      "src": "mcp-video/deliver/mcp-explainer-40s-9x16-1080p60-hinglish-vo.mp4",
+      "poster": "mcp-video/deliver/poster-2s.png",
+      "aspect": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "duration": 40,
+      "specs": [
+        "1080×1920 · 60 fps",
+        "Hinglish narration (platform voice)",
+        "−14.5 LUFS · true peak −1.6 dBTP"
+      ],
+      "chapters": [
+        {
+          "id": "hook",
+          "label": "The hook",
+          "t0": 0,
+          "t1": 5
+        },
+        {
+          "id": "protocol",
+          "label": "One protocol",
+          "t0": 5,
+          "t1": 9
+        },
+        {
+          "id": "roles",
+          "label": "Three roles",
+          "t0": 9,
+          "t1": 16
+        },
+        {
+          "id": "transports",
+          "label": "Two transports",
+          "t0": 16,
+          "t1": 19.5
+        },
+        {
+          "id": "offers",
+          "label": "What servers offer",
+          "t0": 19.5,
+          "t1": 25
+        },
+        {
+          "id": "call",
+          "label": "The call",
+          "t0": 25,
+          "t1": 35.5
+        },
+        {
+          "id": "control",
+          "label": "Who stays in control",
+          "t0": 35.5,
+          "t1": 38
+        },
+        {
+          "id": "end",
+          "label": "End card",
+          "t0": 38,
+          "t1": 40
+        }
+      ],
+      "source": "mcp-video/brand.mjs",
+      "voiceNote": "The end card has no narration yet. Script and assembly: mcp-video/voiceover/."
+    },
+    {
       "id": "samyoj-launch",
       "title": "Samyoj launch film",
       "kind": "Launch film · 60 s",
