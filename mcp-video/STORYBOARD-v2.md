@@ -47,3 +47,17 @@ Cuts sit on the 120 BPM grid (0.5 s). Each window is sized to its voice clip wit
 2. Loop seam: frame 0 equals the frame after the dissolve in composition. The audio ends at 0 at 40 s.
 3. Loudness: integrated about −14 LUFS, true peak under −1 dBTP.
 4. Voice pitch matches the approved preview. No speed-up.
+
+## v3 changes (picture and on-screen words; narration and sound unchanged)
+
+The narration clips, `audio-master.wav`, the scene table, and every sync point are unchanged. The audio was approved as is.
+
+- **Cables go under the labels.** The spokes used to be drawn over the tiles and struck through the text. Now the cables are drawn first.
+- **Readable labels.** Tool labels grow from 20 to 22 px (bold), with a colour dot. AI apps are named (Chat AI, Writer AI, Photo AI, Code AI).
+- **Column headers.** "AI APPS" and "TOOLS" sit above the two columns, so the viewer knows what each side is.
+- **"connections", not "plugs".** The counter says what it counts: 48 → 16 → 17.
+- **Waiter scene rebuilt as a three-stop diagram.** Person ("order dete ho") → AI waiter ("order lekar jaata hai") → kitchen with Mail, Weather, Files. The order slip rides a dotted track above the stops, so it never covers a label. The kitchen door lights up when the order arrives.
+- **Step cards with glyphs.** ? (ask), list (tools), bolt (work), check (done), with a clearer second line on each card.
+- **The choice card.** An AI avatar, a message bubble inside the proposal, and a result card with a check. The proposal fades out before the result fades in, so the two never show together.
+- **New tool badge.** "NAYA" marks the new tile, and the counter goes 16 → 17 on the click.
+- **Captions.** The problem caption now explains the cause ("Har AI app ko har tool se alag jodna padta hai").

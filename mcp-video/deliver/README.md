@@ -1,15 +1,19 @@
 # How MCP works — 40-second loop, 9:16
 
-**Current film:** `mcp-explainer-v2-loop-9x16-1080p60.mp4`
+**Current film:** `mcp-explainer-v3-loop-9x16-1080p60.mp4` (v3: same narration and sound as v2, with a clearer picture)
 - 1080×1920 (9:16), 60 fps, 40.00 s, H.264 High + AAC 48 kHz stereo.
 - Narration: Hinglish, `voice-02`, the approved voice at its natural pace (pitch 0).
 - Loudness −14.1 LUFS integrated, true peak −1.7 dBTP.
 - Loops with no end card. The last half-second dissolves into frame 0 and the audio fades under it.
-- `poster-v2-2s.png` — the 2-second cover frame.
+- `poster-v3-2s.png` — the 2-second cover frame.
+
+## Previous version
+
+- `mcp-explainer-v2-loop-9x16-1080p60.mp4` — v2, the approved narration with the first picture. Kept for comparison; not on the films page.
 
 Scenes: problem, 48 connections (0–6 s) · one plug (6–10) · like a waiter (10–15) · four steps (15–25) · you decide, haan (25–31) · new tool (31–35) · loop (35–40).
 
-Storyboard: `../STORYBOARD-v2.md`. Script and voice clips: `../voiceover/` (`script.v2.json`). Build: `node render.mjs` (picture) then `node voiceover/assemble.mjs --pitch 0`.
+Storyboard: `../STORYBOARD-v2.md`. Script and voice clips: `../voiceover/` (`script.v2.json`). Build: `node render.mjs` (picture) then `node voiceover/assemble.mjs --pitch 0 --out mcp-explainer-v3-loop-9x16-1080p60.mp4`.
 
 ## Retired — do not present
 

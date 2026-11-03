@@ -50,16 +50,16 @@ function chapters(scenes, labels, duration, film) {
 
 const films = [
   {
-    id: 'mcp-explainer-v2',
+    id: 'mcp-explainer-v3',
     title: 'How MCP works',
     kind: 'Explainer · 40 s · loops',
     summary: 'Four AI apps and twelve tools make forty-eight connections. MCP is one common plug, like a phone charger. It works like a waiter who takes your order to the kitchen. The AI suggests, you say haan. Then it loops back to the start.',
-    src: 'mcp-video/deliver/mcp-explainer-v2-loop-9x16-1080p60.mp4',
-    poster: 'mcp-video/deliver/poster-v2-2s.png',
+    src: 'mcp-video/deliver/mcp-explainer-v3-loop-9x16-1080p60.mp4',
+    poster: 'mcp-video/deliver/poster-v3-2s.png',
     aspect: '9:16',
     width: brand.W, height: brand.H, fps: brand.FPS, duration: brand.DUR,
     specs: ['1080×1920 · 60 fps · H.264 + AAC', 'Hinglish narration (voice-02)', '−14.1 LUFS · true peak −1.7 dBTP', 'seamless loop, no end card'],
-    chapters: chapters(brand.SCENES, MCP_LABELS, brand.DUR, 'mcp-explainer-v2'),
+    chapters: chapters(brand.SCENES, MCP_LABELS, brand.DUR, 'mcp-explainer-v3'),
     source: 'mcp-video/brand.mjs',
     voiceNote: 'Script, voice clips and assembly: mcp-video/voiceover/ (script.v2.json). Storyboard: mcp-video/STORYBOARD-v2.md.',
   },

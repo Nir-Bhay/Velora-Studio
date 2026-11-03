@@ -1,4 +1,4 @@
-# Hinglish voice-over · MCP explainer (v2)
+# Hinglish voice-over · MCP explainer (v2 narration, used unchanged in v3)
 
 **Current:** `script.v2.json`. Seven lines, one clip per scene, each sized to its scene window. Voice: platform voice `voice-02` (masculine, Hindi/Hinglish narration).
 
@@ -8,7 +8,7 @@ The problem line (`s2-problem.wav`) is generated but not used. Its idea is on sc
 
 ```
 node render.mjs                         # picture only → out/mcp-explainer-v2.mp4 (and out/picture-v2.mp4)
-node voiceover/assemble.mjs --pitch 0   # → deliver/mcp-explainer-v2-loop-9x16-1080p60.mp4
+node voiceover/assemble.mjs --pitch 0 --out mcp-explainer-v3-loop-9x16-1080p60.mp4   # → deliver/
 ```
 
 Run `node audio.mjs` first if the sound design changed (it writes `out/audio-master.wav`, which the assembler ducks under the voice).

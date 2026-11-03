@@ -135,5 +135,9 @@ Fix: finish the outgoing text before the incoming text starts (for example 28.3�
 **V10 · Sync the picture to the voice's words, not to the scene edge.** *(verified)*
 Measure the peaks of each spoken phrase with silencedetect and time the card, tap, or click to them. In the v2 film, the four step cards land at 15.48, 17.25, 18.82, and 20.09 s, which are the spoken step boundaries.
 
+**V11 · Draw order is the readability rule.** *(verified on the v3 film, from a phone-sized screenshot)*
+Symptom: cables drawn after the tiles ran across the tool labels ("Weather", "Music") and made them hard to read.
+Fix: draw the lines first, then the boxes, then the hub. Check each scene at phone size (270 px wide). If a label is struck through, the order is wrong. Keep labels at least 22 px at 1080 px wide.
+
 **V7 · Write lines to the caption timing.** *(verified)*
 Lines that cover several captions drift out of sync. Give each line the window of its scene, and size it to about 80 % of that window at the voice's natural pace.
