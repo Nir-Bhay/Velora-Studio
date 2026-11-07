@@ -40,7 +40,10 @@ export const Film: React.FC = () => {
         continueRender(handle);
       })
       .catch((err) => {
-        console.error('font load failed', err);
+        // A missing font must not leave the canvas blank. Draw with the system fallback and log the cause.
+        console.error('Font load failed, drawing with fallback fonts:', err);
+        grainRef.current = makeGrainTile(makeCanvas);
+        setReady(true);
         continueRender(handle);
       });
   }, [handle]);

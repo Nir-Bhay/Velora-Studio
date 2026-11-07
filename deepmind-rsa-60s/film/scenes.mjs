@@ -390,30 +390,30 @@ function scene1(ctx, lt, a) {
   ctx.globalAlpha = a;
 }
 
-// ---------- scene 2: announcement, two fighter cards ----------
+// ---------- scene 2: announcement, two research cards with icons ----------
+// Revised for visual clarity: the paper titles were removed, and each card leads with an icon.
 function scene2(ctx, lt, a) {
   const sh = shake(lt, [{ t: 0.05, amp: 10 }, { t: 2.4, amp: 14 }]);
   ctx.translate(sh.x, sh.y);
   background(ctx, lt, { glowY: 700, glowA: 0.22 });
 
-  // Date stamp on a tilted white tape strip. The date is on-screen text from the brief.
+  // Date stamp, the headline, and the two research advances from the brief.
   marker(ctx, 'NOV 06, 2026', CX, 380, lt, 0.0, { font: '44px MonoM', color: COL.white, ink: COL.navy, dur: 0.3 });
-  // The headline, slamming word by word.
   slam(ctx, 'GOOGLE', CX, 580, lt, 0.25, { font: '150px InterK', color: COL.white, from: 2.4 });
   slam(ctx, 'DEEPMIND', CX, 740, lt, 0.45, { font: '150px InterK', color: COL.cyan, from: 2.4 });
   marker(ctx, 'TWO RESEARCH ADVANCES', CX, 850, lt, 1.0, { font: '60px InterK', color: COL.amber });
 
-  // Fighter card A slides in from the left. Card B slides in from the right. Both tilt slightly.
+  // Card A slides in from the left, card B from the right. Each card leads with an icon.
   const aP = back(win(lt, 2.4, 0.5)), bP = back(win(lt, 3.1, 0.5));
   const ax = lerp(-940, 108, aP), bx = lerp(1220, 108, bP);
   speedLines(ctx, CX, 1060, win(lt, 2.3, 0.8), 0.7);
-  drawFightCard(ctx, ax, 960, 'RSA SIGNATURE FORGERY', 'Modular Roots from a Restricted Oracle', 'PAPER 1 · WORKING PAPER', COL.cyan, cl(aP));
-  drawFightCard(ctx, bx, 1160, 'BATCH FACTORIZATION', 'Fan Factories: multiple number fields', 'PAPER 2 · WORKING PAPER', COL.amber, cl(bP));
+  drawFightCard(ctx, ax, 960, 'RSA SIGNATURE FORGERY', 'PAPER 1', COL.cyan, cl(aP), 'seal');
+  drawFightCard(ctx, bx, 1160, 'BATCH FACTORIZATION', 'PAPER 2', COL.amber, cl(bP), 'blocks');
   ctx.globalAlpha = a;
 }
 
-// A research card: a dark card, a coloured edge, and the title, subtitle and tag.
-function drawFightCard(ctx, x, y, title, sub, tag, accent, alpha) {
+// A research card: a dark card, an accent edge, an icon on the left, the title and a short tag.
+function drawFightCard(ctx, x, y, title, tag, accent, alpha, icon) {
   if (alpha <= 0.001) return;
   ctx.save();
   ctx.globalAlpha *= alpha;
@@ -421,19 +421,32 @@ function drawFightCard(ctx, x, y, title, sub, tag, accent, alpha) {
   ctx.fillStyle = accent;
   rr(ctx, x, y, 14, 160, 6);
   ctx.fill();
-  T(ctx, title, x + 46, y + 62, { font: '50px InterK', color: COL.white, align: 'left', shadow: false });
-  T(ctx, sub, x + 46, y + 100, { font: '26px MonoR', color: COL.grey, align: 'left', shadow: false });
-  T(ctx, tag, x + 46, y + 136, { font: '22px MonoM', color: accent, align: 'left', shadow: false });
+  const ix = x + 104, iy = y + 80;
+  if (icon === 'seal') {
+    // A seal: a ring with a tick, for a signature.
+    ctx.strokeStyle = accent; ctx.lineWidth = 8;
+    ctx.beginPath(); ctx.arc(ix, iy, 46, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ix - 22, iy + 2); ctx.lineTo(ix - 4, iy + 20); ctx.lineTo(ix + 26, iy - 18); ctx.stroke();
+  } else {
+    // Blocks: a 3x3 grid of small squares, for factoring many keys at once.
+    ctx.fillStyle = accent;
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) {
+      rr(ctx, ix - 44 + c * 32, iy - 44 + r * 32, 24, 24, 4); ctx.fill();
+    }
+  }
+  T(ctx, title, x + 200, y + 84, { font: '46px InterK', color: COL.white, align: 'left', shadow: false, maxW: 620 });
+  T(ctx, tag, x + 200, y + 126, { font: '24px MonoM', color: accent, align: 'left', shadow: false });
   ctx.restore();
 }
 
-// ---------- scene 3: the signature problem ----------
+// ---------- scene 3: the signature problem (block diagram) ----------
+// Visual: a 128-byte block drawn as a grid. Fixed padding, caller-controlled bytes, and the 32-byte digest.
 function scene3(ctx, lt, a) {
-  const sh = shake(lt, [{ t: 7.6, amp: 16 }]);
+  const sh = shake(lt, [{ t: 8.3, amp: 16 }]);
   ctx.translate(sh.x, sh.y);
   background(ctx, lt, { glowY: 860, glowA: 0.22, tint: COL.cyan });
 
-  // Phase 1 (0–3.2 s): the public modulus, N = p × q. Each token slams in, then the group whips away.
+  // Phase 1 (0–3.2 s): the public modulus N = p × q, then it whips away.
   const exitP = eo(win(lt, 3.2, 0.45));
   ctx.save();
   ctx.globalAlpha *= 1 - exitP;
@@ -446,196 +459,170 @@ function scene3(ctx, lt, a) {
   T(ctx, 'PRIME 1 · PRIME 2 · PUBLIC MODULUS', CX, 880, { font: '26px MonoM', color: COL.white, a: win(lt, 1.2, 0.5) });
   ctx.restore();
 
-  // Phase 2 (3.6 s onward): three on-screen phrases from the brief, each slamming in.
-  slam(ctx, 'DIGITAL SIGNATURES', CX, 560, lt, 3.6, { font: '104px InterK', color: COL.white, from: 2.2 });
-  slam(ctx, 'SIGNING INTERFACE', CX, 680, lt, 4.4, { font: '104px InterK', color: COL.cyan, from: 2.2 });
-  marker(ctx, 'PADDING WEAKNESS', CX, 800, lt, 5.2, { font: '96px InterK', color: COL.amber });
+  // Phase 2 (3.6 s onward): the headline phrases from the brief, with less text on screen at once.
+  slam(ctx, 'DIGITAL SIGNATURES', CX, 470, lt, 3.6, { font: '92px InterK', color: COL.white, from: 2.2 });
+  slam(ctx, 'SIGNING INTERFACE', CX, 575, lt, 4.4, { font: '92px InterK', color: COL.cyan, from: 2.2 });
+  marker(ctx, 'PADDING WEAKNESS', CX, 690, lt, 5.2, { font: '80px InterK', color: COL.amber });
 
-  // The 128-byte block. Caller-controlled bytes grow across the half-block line.
-  const bx = 108, bw = 864, by = 880, bh = 92;
-  const blockP = eo(win(lt, 6.0, 0.5));
-  const frac = lerp(0.2, 0.62, ei(win(lt, 6.5, 4.0)));
-  if (blockP > 0) {
+  // The 128-byte block as a 16 × 8 grid. Each cell is one byte. Cells light up in a fast wave.
+  const gx = 108, gy = 780, cols = 16, rows = 8, cw = 52, ch = 32, gap = 6;
+  const span = 38;                                      // caller-controlled bytes, grown in the animation
+  const callerEnd = 40 + Math.round(lerp(0, span, ei(win(lt, 6.5, 3.0))));
+  const half = 64;                                      // half of 128 bytes
+  for (let i = 0; i < 128; i++) {
+    const reveal = win(lt, 6.0 + i * 0.012, 0.25);
+    if (reveal <= 0) continue;
+    const r = Math.floor(i / cols), c = i % cols;
+    const x = gx + c * (cw + gap), y = gy + r * (ch + gap);
+    let fill;
+    if (i < 40) fill = 'rgba(255,255,255,0.22)';        // fixed padding
+    else if (i < callerEnd) fill = COL.amber;           // caller-controlled
+    else if (i >= 96) fill = COL.cyan;                  // 32-byte digest
+    else fill = 'rgba(255,255,255,0.22)';
     ctx.save();
-    ctx.globalAlpha *= blockP;
-    T(ctx, '128 BYTES · 1024-BIT SIGNED BLOCK', CX, by - 22, { font: '24px MonoM', color: COL.white, shadow: false });
-    ctx.beginPath(); rr(ctx, bx, by, bw, bh, 18); ctx.clip();
-    ctx.fillStyle = 'rgba(11,31,69,0.55)';
-    ctx.fillRect(bx, by, bw, bh);
-    // Fixed padding is hatched.
-    ctx.strokeStyle = 'rgba(255,255,255,0.28)';
-    ctx.lineWidth = 3;
-    for (let x = bx - bh; x < bx + bw; x += 24) { ctx.beginPath(); ctx.moveTo(x, by + bh); ctx.lineTo(x + bh, by); ctx.stroke(); }
-    // Caller-controlled bytes, in amber so the threat reads at a glance.
-    const cw = bw * frac;
-    ctx.fillStyle = COL.amber;
-    ctx.fillRect(bx + bw - cw, by, cw, bh);
+    ctx.globalAlpha *= eo(reveal);
+    ctx.fillStyle = fill;
+    rr(ctx, x, y, cw, ch, 6); ctx.fill();
     ctx.restore();
-    T(ctx, 'FIXED PADDING', bx + 24, by + bh / 2 + 9, { font: '26px MonoM', color: COL.navy, align: 'left', shadow: false });
-    if (bw * frac > 300) T(ctx, 'CALLER-CONTROLLED', bx + bw - (bw * frac) / 2, by + bh / 2 + 9, { font: '26px MonoM', color: COL.navy, shadow: false });
-    // Half-block line.
-    ctx.save();
-    ctx.globalAlpha *= blockP;
-    ctx.strokeStyle = COL.white;
-    ctx.lineWidth = 4;
-    ctx.setLineDash([12, 8]);
-    ctx.beginPath(); ctx.moveTo(CX, by - 14); ctx.lineTo(CX, by + bh + 14); ctx.stroke();
-    ctx.restore();
-    T(ctx, '½ BLOCK', CX, by + bh + 46, { font: '24px MonoM', color: COL.white, shadow: false, a: blockP });
   }
+  // Half-block line through the grid, between rows 3 and 4.
+  const hy = gy + 4 * (ch + gap) - gap / 2;
+  ctx.save();
+  ctx.globalAlpha *= cl((lt - 6.0) * 3);
+  ctx.strokeStyle = COL.white; ctx.lineWidth = 4; ctx.setLineDash([12, 8]);
+  ctx.beginPath(); ctx.moveTo(gx - 20, hy); ctx.lineTo(gx + 16 * (cw + gap) + 20, hy); ctx.stroke();
+  ctx.restore();
+  T(ctx, 'SCHEMATIC · NOT TO SCALE', CX, gy - 22, { font: '22px MonoM', color: COL.mist, shadow: false, a: cl((lt - 6.0) * 3) });
 
-  // Warning, shown once the caller-controlled part passes half the block at 7.6 s.
-  if (lt > 7.6) {
-    flash(ctx, lt, 7.6, COL.red, 0.25, 0.25);
-    marker(ctx, 'MORE THAN HALF ATTACKER-CONTROLLED', CX, 1040, lt, 7.6, { font: '40px InterK', color: COL.amber });
-    marker(ctx, 'PADDING ADDS NO EXTRA PROTECTION', CX, 1110, lt, 7.9, { font: '40px InterK', color: COL.white, ink: COL.navy });
-  }
-
-  // Chips: the signing path, one chip after another from 9.0 s.
-  const chips = ['MESSAGE', 'PADDING', 'RSA SIGNING', 'DIGITAL SIGNATURE'];
-  chips.forEach((c, i) => {
-    const x = 108 + i * (190 + 36);
-    const p = back(win(lt, 9.0 + i * 0.3, 0.4));
+  // Legend: three swatches, one per byte type.
+  const legend = [['FIXED PADDING', 'rgba(255,255,255,0.22)', 108], ['CALLER-CONTROLLED', COL.amber, 420], ['32-BYTE DIGEST', COL.cyan, 800]];
+  legend.forEach(([label, col, x], i) => {
+    const p = cl((lt - 6.8 - i * 0.2) * 3);
     if (p <= 0) return;
     ctx.save();
-    ctx.globalAlpha *= cl(p * 3);
-    card(ctx, x, 1180, 190, 104, { fill: i === 1 ? COL.amber : 'rgba(11,31,69,0.9)', stroke: COL.white, r: 18, lw: 2 });
-    const parts = c.split(' ');
-    parts.forEach((w, k) => T(ctx, w, x + 95, 1180 + 50 + k * 30 - (parts.length - 1) * 15, { font: '24px MonoM', color: i === 1 ? COL.navy : COL.white, shadow: false }));
+    ctx.globalAlpha *= p;
+    ctx.fillStyle = col; rr(ctx, x, 1120, 28, 28, 6); ctx.fill();
     ctx.restore();
+    T(ctx, label, x + 40, 1144, { font: '24px MonoM', color: COL.white, align: 'left', shadow: false, a: p });
   });
-  // Scope note, on-screen per the brief's accuracy rules.
-  T(ctx, 'A SPECIFIC SIGNING INTERFACE · NOT ALL RSA OPERATIONS', CX, 1318, { font: '24px MonoM', color: COL.white, a: win(lt, 10.0, 0.6) });
+
+  // The warning once caller-controlled bytes pass the half-block line.
+  if (lt > 8.3) {
+    flash(ctx, lt, 8.3, COL.red, 0.25, 0.25);
+    marker(ctx, 'MORE THAN HALF ATTACKER-CONTROLLED', CX, 1210, lt, 8.3, { font: '40px InterK', color: COL.amber });
+    marker(ctx, 'PADDING ADDS NO EXTRA PROTECTION', CX, 1276, lt, 8.6, { font: '36px InterK', color: COL.white, ink: COL.navy });
+  }
+  // Scope note, required by the brief's accuracy rules.
+  T(ctx, 'A SPECIFIC SIGNING INTERFACE · NOT ALL RSA OPERATIONS', CX, 1326, { font: '22px MonoM', color: COL.mist, a: win(lt, 10.0, 0.6) });
   ctx.globalAlpha = a;
 }
 
-// ---------- scene 4: the 1,600x estimate ----------
+// ---------- scene 4: the 1,600x estimate (cost bars) ----------
+// Visual: a full-width bar for today's cost, and a sliver for the theoretical estimate (1/1,600).
 function scene4(ctx, lt, a) {
   const sh = shake(lt, [{ t: 2.2, amp: 26 }]);
   ctx.translate(sh.x, sh.y);
   background(ctx, lt, { tint: COL.amber, glowY: 760, glowA: 0.28 });
-  speedLines(ctx, CX, 720, win(lt, 2.2, 0.7), 0.85);
+  speedLines(ctx, CX, 640, win(lt, 2.2, 0.7), 0.85);
 
-  // The number counts up fast, then lands on 1,600× at the 2.2 s reveal.
+  // The number counts up fast, then lands on 1,600× at 2.2 s.
   const fmt = (n) => n.toLocaleString('en-US');
   const counting = win(lt, 0.2, 2.0);
   const val = counting >= 1 ? 1600 : Math.round(1600 * eo(counting));
   const label = counting >= 1 ? '1,600×' : `${fmt(val)}×`;
   const sc = lt >= 2.2 ? lerp(1.12, 1, back(win(lt, 2.2, 0.4))) : 1;
-  T(ctx, label, CX, 760, { font: '300px InterK', color: COL.cyan, scale: sc, glow: 40, glowColor: COL.white, maxW: 960 });
-
-  shock(ctx, CX, 720, lt, 2.2, COL.white, 760, 0.8);
+  T(ctx, label, CX, 600, { font: '260px InterK', color: COL.cyan, scale: sc, glow: 40, glowColor: COL.white, maxW: 960 });
+  shock(ctx, CX, 560, lt, 2.2, COL.white, 760, 0.8);
   flash(ctx, lt, 2.2, '#FFF4E0', 0.6, 0.25);
 
-  marker(ctx, 'THEORETICAL ESTIMATE', CX, 920, lt, 2.6, { font: '64px InterK', color: COL.amber });
-  T(ctx, 'NOT EXPERIMENTALLY DEMONSTRATED', CX, 1040, { font: '50px InterB', color: COL.white, a: cl((lt - 3.3) * 3) });
-  T(ctx, 'AT THIS SIZE', CX, 1100, { font: '50px InterB', color: COL.white, a: cl((lt - 3.5) * 3) });
-  T(ctx, '32-BYTE DIGEST · SIGNATURE FORGERY', CX, 1190, { font: '26px MonoM', color: COL.grey, a: cl((lt - 4.0) * 3) });
+  // Cost bars: today's cost is the full bar. The estimate is 1/1,600 of that width.
+  const bx = 108, bw = 864, by1 = 780, by2 = 880, bh = 56;
+  const p1 = eo(win(lt, 2.8, 0.8));
+  const p2 = eo(win(lt, 3.6, 0.6));
+  T(ctx, 'TODAY: COST = 1', bx, by1 - 14, { font: '24px MonoM', color: COL.white, align: 'left', shadow: false, a: cl((lt - 2.8) * 3) });
+  ctx.save();
+  ctx.fillStyle = 'rgba(11,31,69,0.35)'; rr(ctx, bx, by1, bw, bh, 28); ctx.fill();
+  ctx.fillStyle = COL.white; rr(ctx, bx, by1, bw * p1, bh, 28); ctx.fill();
+  ctx.restore();
+  T(ctx, 'ESTIMATE: ABOUT 1 / 1,600 OF TODAY', bx, by2 - 14, { font: '24px MonoM', color: COL.navy, align: 'left', shadow: false, a: cl((lt - 3.6) * 3) });
+  ctx.save();
+  ctx.fillStyle = 'rgba(11,31,69,0.35)'; rr(ctx, bx, by2, bw, bh, 28); ctx.fill();
+  ctx.fillStyle = COL.cyan; rr(ctx, bx, by2, Math.max(8, (bw / 1600) * p2), bh, 28); ctx.fill();
+  ctx.restore();
+
+  marker(ctx, 'THEORETICAL ESTIMATE', CX, 1020, lt, 4.2, { font: '64px InterK', color: COL.amber });
+  T(ctx, 'NOT EXPERIMENTALLY DEMONSTRATED', CX, 1110, { font: '50px InterB', color: COL.white, a: cl((lt - 4.8) * 3) });
+  T(ctx, 'AT THIS SIZE', CX, 1170, { font: '50px InterB', color: COL.white, a: cl((lt - 5.0) * 3) });
+  T(ctx, '32-BYTE DIGEST · SIGNATURE FORGERY', CX, 1250, { font: '26px MonoM', color: COL.mist, a: cl((lt - 5.4) * 3) });
   ctx.globalAlpha = a;
 }
 
-// ---------- scene 5: fan factories ----------
+// ---------- scene 5: fan factories (shared setup vs per-key cost) ----------
+// Visual: one shared setup block, then two bars for the cost of each additional key.
 function scene5(ctx, lt, a) {
   background(ctx, lt, { glowY: 680, glowA: 0.22 });
   slam(ctx, 'FAN FACTORIES', CX, 400, lt, 0.1, { font: '120px InterK', color: COL.white, from: 2.4, glow: 26, glowColor: COL.cyan });
-  marker(ctx, 'BATCH FACTORING', CX, 500, lt, 0.7, { font: '56px InterK', color: COL.amber });
+  marker(ctx, 'BATCH FACTORING', CX, 500, lt, 1.2, { font: '60px InterK', color: COL.amber });
 
-  // The shared precomputation orb. It pulses, then bursts into six fans at 2.0 s.
-  const pulse = 1 + 0.04 * Math.sin(lt * 6);
-  const orbA = eo(win(lt, 0.6, 0.6));
-  const ox = CX, oy = 610, orbR = 66;
-  const targets = Array.from({ length: 6 }, (_, i) => ({ x: 108 + i * 152 + 65, y: 1130 }));
-  // Fan lines, drawn first so they sit behind the text.
-  targets.forEach((tg, i) => {
-    const p = eo(win(lt, 2.0 + i * 0.07, 0.7));
-    if (p <= 0) return;
-    ctx.save();
-    ctx.globalAlpha *= p * 0.85;
-    ctx.strokeStyle = COL.white;
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(ox, oy + orbR);
-    ctx.bezierCurveTo(ox, (oy + tg.y) / 2, tg.x, (oy + tg.y) / 2, tg.x, tg.y);
-    ctx.stroke();
-    // Energy pulse travelling down the line.
-    const u = (lt * 0.7 + i * 0.16) % 1, v = 1 - u;
-    const px = v * v * v * ox + 3 * v * v * u * ox + 3 * v * u * u * tg.x + u * u * u * tg.x;
-    const py = v * v * v * (oy + orbR) + 3 * v * v * u * (oy + tg.y) / 2 + 3 * v * u * u * (oy + tg.y) / 2 + u * u * u * tg.y;
-    ctx.fillStyle = COL.cyan;
-    ctx.beginPath(); ctx.arc(px, py, 9, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
-  });
-
-  // The orb.
+  // One shared setup, done once. The brief says its cost is about one factorization.
+  const sp = eo(win(lt, 2.2, 0.6));
   ctx.save();
-  ctx.globalAlpha *= orbA;
-  ctx.translate(ox, oy);
-  ctx.scale(pulse, pulse);
-  const og = ctx.createRadialGradient(0, 0, 10, 0, 0, orbR + 30);
-  og.addColorStop(0, COL.white);
-  og.addColorStop(0.5, COL.cyan);
-  og.addColorStop(1, 'rgba(54,197,240,0)');
-  ctx.fillStyle = og;
-  ctx.beginPath(); ctx.arc(0, 0, orbR + 30, 0, Math.PI * 2); ctx.fill();
+  ctx.globalAlpha *= sp;
+  ctx.fillStyle = COL.amber; rr(ctx, 108, 580, 864 * sp, 110, 24); ctx.fill();
   ctx.restore();
-  if (orbA > 0) {
-    ctx.save();
-    ctx.globalAlpha *= orbA;
-    card(ctx, CX - 390, 716, 780, 56, { fill: 'rgba(11,31,69,0.92)', stroke: COL.cyan, r: 14, lw: 2 });
-    ctx.restore();
-    T(ctx, 'SHARED PRECOMPUTATION · ≈ ONE FACTORIZATION', CX, 752, { font: '24px MonoM', color: COL.white, a: orbA, shadow: false });
-  }
-  shock(ctx, ox, oy, lt, 2.0, COL.cyan, 700, 0.9);
-  flash(ctx, lt, 2.0, COL.cyan, 0.35, 0.3);
+  T(ctx, 'ONE SHARED SETUP ≈ ONE FACTORIZATION', CX, 652, { font: '34px InterK', color: COL.navy, a: cl((lt - 2.6) * 3) });
 
-  // Six targets at the bottom of the fan.
-  targets.forEach((tg, i) => {
-    const p = back(win(lt, 2.3 + i * 0.07, 0.4));
-    if (p <= 0) return;
-    ctx.save();
-    ctx.globalAlpha *= cl(p * 3);
-    card(ctx, tg.x - 65, tg.y - 45, 130, 90, { fill: 'rgba(11,31,69,0.92)', stroke: COL.cyan, r: 16, lw: 3 });
-    T(ctx, `N${'₁₂₃₄₅₆'[i]}`, tg.x, tg.y + 6, { font: '34px InterK', color: COL.white, shadow: false });
-    ctx.restore();
-  });
+  // Cost per additional key: the old method is tall, the new projection is 1/30 of that height.
+  const baseY = 1160, maxH = 380;
+  const hPrev = maxH * eo(win(lt, 4.0, 0.9));
+  const hNew = (maxH / 30) * eo(win(lt, 5.4, 0.6));
+  ctx.save();
+  ctx.fillStyle = 'rgba(255,255,255,0.55)'; rr(ctx, 170, baseY - hPrev, 260, hPrev, 18); ctx.fill();
+  ctx.fillStyle = COL.cyan; rr(ctx, 610, baseY - Math.max(hNew, 0), 260, Math.max(hNew, 0), 10); ctx.fill();
+  ctx.restore();
+  T(ctx, 'PREVIOUS METHOD', 300, baseY + 40, { font: '26px MonoM', color: COL.white, a: cl((lt - 4.2) * 3) });
+  T(ctx, 'COST PER KEY', 300, baseY + 76, { font: '22px MonoM', color: COL.mist, a: cl((lt - 4.4) * 3) });
+  T(ctx, 'NEW', 740, baseY + 40, { font: '26px MonoM', color: COL.white, a: cl((lt - 5.6) * 3) });
+  T(ctx, 'PROJECTED, NOT IMPLEMENTED', 740, baseY + 76, { font: '22px MonoM', color: COL.mist, a: cl((lt - 5.8) * 3) });
+  T(ctx, '≈30× LESS', 740, baseY - hNew - 22, { font: '64px InterK', color: COL.cyan, a: cl((lt - 5.8) * 3) });
 
-  // The headline number, with its phrase from the brief.
-  slam(ctx, '≈30×', CX, 1000, lt, 4.2, { font: '260px InterK', color: COL.amber, from: 2.6, glow: 30, glowColor: COL.amber });
-  T(ctx, 'PROJECTED REDUCTION PER ADDITIONAL KEY', CX, 1058, { font: '28px MonoM', color: COL.white, a: cl((lt - 5.2) * 3) });
-  marker(ctx, 'THEORETICAL · NOT IMPLEMENTED', CX, 1110, lt, 5.6, { font: '40px InterK', color: COL.cyan });
+  // The on-screen line from the brief, two lines at most.
+  T(ctx, '≈30× PROJECTED REDUCTION', CX, 1262, { font: '46px InterB', color: COL.white, a: cl((lt - 6.6) * 3) });
+  T(ctx, 'PER ADDITIONAL KEY', CX, 1318, { font: '46px InterB', color: COL.white, a: cl((lt - 7.0) * 3) });
   ctx.globalAlpha = a;
 }
 
-// ---------- scene 6: the real computation ----------
+// ---------- scene 6: the real computation (racing bars) ----------
+// Visual: two bars from the brief's numbers, drawn to scale. Caveats are kept, but they are smaller.
 function scene6(ctx, lt, a) {
-  const sh = shake(lt, [{ t: 3.4, amp: 18 }]);
-  ctx.translate(sh.x, sh.y);
-  background(ctx, lt, { glowY: 560, glowA: 0.22, tint: COL.cyan });
+  background(ctx, lt, { glowY: 700, glowA: 0.2, tint: COL.cyan });
 
-  // The two numbers from the brief, slamming in one after the other.
-  slam(ctx, '1,380 CPU CORE-YEARS', CX, 480, lt, 0.2, { font: '96px InterK', color: COL.amber, from: 2.4 });
-  slam(ctx, '→', CX, 600, lt, 0.8, { font: '110px InterK', color: COL.white, from: 2.2 });
-  slam(ctx, '391 CPU CORE-YEARS', CX, 730, lt, 1.2, { font: '96px InterK', color: COL.cyan, from: 2.4 });
+  // The brief's comparison line, on two lines.
+  T(ctx, '1,380 CPU CORE-YEARS', CX, 330, { font: '64px InterK', color: COL.amber, a: cl((lt - 0.2) * 3), maxW: 960 });
+  T(ctx, '→ 391 CPU CORE-YEARS', CX, 420, { font: '64px InterK', color: COL.cyan, a: cl((lt - 0.6) * 3), maxW: 960 });
 
-  // Racing bars: the old run is long and amber; the new one is short and cyan.
+  // Racing bars, to scale: the new run is 391 / 1,380 of the old one.
   const full = 864, newW = full * (391 / 1380);
   const b1 = eo(win(lt, 1.6, 1.6)), b2 = eo(win(lt, 2.2, 0.9));
   ctx.save();
-  rr(ctx, 108, 800, full, 56, 28); ctx.fillStyle = 'rgba(11,31,69,0.45)'; ctx.fill();
-  ctx.fillStyle = COL.amber; rr(ctx, 108, 800, full * b1, 56, 28); ctx.fill();
-  rr(ctx, 108, 890, full, 56, 28); ctx.fillStyle = 'rgba(11,31,69,0.45)'; ctx.fill();
-  ctx.fillStyle = COL.cyan; rr(ctx, 108, 890, newW * b2, 56, 28); ctx.fill();
+  rr(ctx, 108, 500, full, 60, 30); ctx.fillStyle = 'rgba(11,31,69,0.45)'; ctx.fill();
+  ctx.fillStyle = COL.amber; rr(ctx, 108, 500, full * b1, 60, 30); ctx.fill();
+  rr(ctx, 108, 600, full, 60, 30); ctx.fillStyle = 'rgba(11,31,69,0.45)'; ctx.fill();
+  ctx.fillStyle = COL.cyan; rr(ctx, 108, 600, newW * b2, 60, 30); ctx.fill();
   ctx.restore();
-  speedLines(ctx, CX, 860, win(lt, 2.2, 1.0), 0.5);
+  T(ctx, 'OLD RUN', 140, 541, { font: '30px MonoM', color: COL.navy, align: 'left', shadow: false, a: cl((lt - 2.0) * 3) });
+  T(ctx, 'NEW RUN', 108 + newW * b2 + 20, 641, { font: '30px MonoM', color: COL.white, align: 'left', shadow: false, a: cl((lt - 2.8) * 3) });
+  speedLines(ctx, CX, 620, win(lt, 2.2, 1.0), 0.5);
 
-  // Headline: 3.5× less CPU work, with the same benchmark phrase as the brief.
-  slam(ctx, '3.5×', CX, 1080, lt, 3.2, { font: '280px InterK', color: COL.cyan, from: 2.6, glow: 30, glowColor: COL.white });
-  T(ctx, 'UP TO 300,000 CPU CORES · 16 GPUs', CX, 1120, { font: '26px MonoM', color: COL.white, a: cl((lt - 4.4) * 3) });
-  marker(ctx, 'SAME BENCHMARK AND ALGORITHM', CX, 1180, lt, 4.8, { font: '40px InterK', color: COL.white, ink: COL.navy });
-  // Required caveats: measured on other hardware, and not the 1,600× result.
-  T(ctx, 'MEASURED REPRODUCTION · NOT THE 1,600× RESULT', CX, 1232, { font: '22px MonoM', color: COL.white, a: cl((lt - 5.4) * 3) });
-  T(ctx, 'COMPARISON USES COSTS REPORTED ON OTHER HARDWARE', CX, 1266, { font: '21px MonoM', color: COL.mist, a: cl((lt - 5.7) * 3) });
-  T(ctx, 'PAPER: AT MOST ~1.5× (SIEVE) AND ~1.2× (2ND TIER) FROM HARDWARE', CX, 1298, { font: '21px MonoM', color: COL.mist, a: cl((lt - 6.0) * 3) });
+  // Headline: 3.5× less CPU work. The number is kept clear of the bars.
+  slam(ctx, '3.5×', CX, 960, lt, 3.2, { font: '260px InterK', color: COL.cyan, from: 2.6, glow: 30, glowColor: COL.white });
+  T(ctx, 'LESS CPU WORK', CX, 1030, { font: '44px InterK', color: COL.white, a: cl((lt - 4.0) * 3) });
+  marker(ctx, 'SAME BENCHMARK AND ALGORITHM', CX, 1096, lt, 4.6, { font: '38px InterK', color: COL.white, ink: COL.navy });
+
+  // Required caveats: measured on other hardware, and not the 1,600× result. Small and stacked.
+  T(ctx, 'MEASURED REPRODUCTION · NOT THE 1,600× RESULT', CX, 1156, { font: '22px MonoM', color: COL.white, a: cl((lt - 5.4) * 3) });
+  T(ctx, 'COMPARISON USES COSTS REPORTED ON OTHER HARDWARE', CX, 1192, { font: '21px MonoM', color: COL.mist, a: cl((lt - 5.7) * 3) });
+  T(ctx, 'PAPER: AT MOST ~1.5× (SIEVE) AND ~1.2× (2ND TIER) FROM HARDWARE', CX, 1226, { font: '21px MonoM', color: COL.mist, a: cl((lt - 6.0) * 3) });
   ctx.globalAlpha = a;
 }
 

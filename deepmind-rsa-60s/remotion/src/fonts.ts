@@ -16,6 +16,7 @@ export async function loadFonts(): Promise<void> {
   for (const [family, file, weight] of FACES) {
     const face = new FontFace(family, `url(${staticFile(file)})`, {weight});
     await face.load();
-    document.fonts.add(face);
+    // FontFaceSet supports add() at runtime. The TypeScript DOM typings do not declare it, so cast to Set.
+    (document.fonts as unknown as Set<FontFace>).add(face);
   }
 }

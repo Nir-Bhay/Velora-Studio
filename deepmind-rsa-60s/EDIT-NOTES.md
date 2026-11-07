@@ -2,6 +2,19 @@
 
 This file is for frame-level and clip-level feedback in Remotion Studio. Write your comments under the item numbers (for example, "C3: move the 3.5× slam 0.2 s earlier"). Ideas are suggestions only. Nothing here has been applied to the film yet, except where marked "done".
 
+## 0. Revision 2 (after first Studio review)
+
+- **Blank Studio preview: fixed.** Cause: the font files were not found. Remotion served `public/` from the wrong folder, so the font load failed, and the canvas was never drawn. Fix: `remotion.config.ts` now points the public folder at `remotion/public`. `Film.tsx` also draws with fallback fonts if a font fails, and logs the error. Verified: a headless Chromium still at 2.2 s shows the full hook frame.
+- **Less text, more diagrams.** The film had too much text and too few visuals. Changes:
+  - S2: the paper titles are removed. Each card now has an icon (seal, blocks).
+  - S3: the signature problem is a 16 × 8 grid of 128 bytes (padding, caller-controlled, 32-byte digest), with a half-block line. The sub-text is cut to one scope note.
+  - S4: a full-width bar for today's cost next to a 1/1,600 sliver, plus the 1,600× count-up.
+  - S5: one shared setup block, then the cost per key: a tall bar for the previous method and a bar 1/30 of that height, marked "projected, not implemented".
+  - S6: the racing bars are to scale, and the 3.5× no longer overlaps them. The caveats are small and stacked.
+- **Brief strings are still complete.** The on-screen strings from the brief are binding, so they are kept word for word. They are now shown in sequence, not all at once. If you want shorter on-screen text, the brief must change first. Tell me and I will ask the brief owner.
+- **Not yet reworked:** S1 (hook), S7 (reality check) and S8 (closing). S7 still has several text lines. Tell me which of these to change next.
+- **mp4 is stale.** `deepmind-rsa-60s.mp4` was built before revision 2. Rebuild with `npm run build` after you approve the changes.
+
 ## 1. Open the editor
 
 ```bash
@@ -55,7 +68,8 @@ Please check these in the Studio, frame by frame where needed.
   - (a) a short white flash cut at 49.67 s (recommended, the cut matches the "reality check" beat),
   - (b) start the S7 elements earlier inside a pre-roll,
   - (c) keep the cross-fade but make it 0.15 s.
-- **Remotion browser preview not verified headlessly.** The sandbox could not download the Chrome build that Remotion needs (`remotion.media` is blocked). The Studio compiled and serves HTTP 200, but the first real check is in your browser. Please report any blank or missing frame by its timeline position.
+- **Studio console warnings.** Remotion's own `AbsoluteFill` component logs a React warning about `ref` (React 18.3 is installed). The preview still draws. Report it if the preview misbehaves.
+- **Remotion telemetry** (`bugs.remotion.dev`) is blocked in the sandbox. This is harmless.
 - **Thumbnail** (`deepmind-rsa-thumbnail.png`) is rebuilt from the same scene code. Please check it against the bright palette.
 - **Final mp4 is not tracked by git.** The repo's `.gitignore` ignores `*.mp4`, as it did before this work. The mp4 is in the workspace. Tell me if you want it committed or stored elsewhere.
 

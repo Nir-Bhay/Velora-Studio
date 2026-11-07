@@ -49,6 +49,12 @@ function applyGrain(ctx, grain, t, W, H) {
 }
 
 // Draws the whole film at time t. `grain` is the tile from makeGrainTile, and `total` is the film length.
+/**
+ * @param {CanvasRenderingContext2D} ctx        target 2D context (node-canvas or browser canvas)
+ * @param {number} t                             time in seconds
+ * @param {{scenes: Array<{start: number, duration: number}>, captions: any[], total: number}} timeline
+ * @param {{grain?: any, W?: number, H?: number, total?: number}} [opts]
+ */
 export function drawFilmFrame(ctx, t, timeline, { grain, W = 1080, H = 1920, total = timeline.total } = {}) {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.globalAlpha = 1;
