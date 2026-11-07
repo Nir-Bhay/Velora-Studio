@@ -39,7 +39,7 @@ FFMPEG=/path/to/ffmpeg node render/thumbnail.mjs
 | `render/music.mjs` | Original procedural music and SFX. No samples. |
 | `render/mix.sh` | Narration + music mix and loudness. |
 | `render/scenes.mjs` | Scene drawing functions, lock, background, captions, fonts. |
-| `render/render.mjs` | Frame loop, scene cross-fades, ffmpeg pipe, stills (`--still <s>`). |
+| `render/render.mjs` | Frame loop, scene hard cuts with white flash (via film/frame.mjs), ffmpeg pipe, stills (`--still <s>`). |
 | `render/build.sh` | Full pipeline. |
 | `render/thumbnail.mjs` | Thumbnail. |
 | `audio/vo-01..08.mp3` | Narration clips (one per scene), generated with the registered voice. |

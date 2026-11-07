@@ -28,6 +28,12 @@ function ff(args) {
   }
 }
 
+// Runs an ffmpeg transform and throws if it fails. Unlike ff(), this never hides an error,
+// so a broken clip stops the build instead of producing a missing file later.
+function ffRun(args) {
+  execFileSync(FF, ['-hide_banner', '-nostats', '-loglevel', 'error', ...args], { stdio: ['ignore', 'pipe', 'pipe'] });
+}
+
 // Duration in seconds, read from the "Duration: HH:MM:SS.ss" line that ffmpeg prints for an input.
 function duration(file) {
   const log = ff(['-i', file]);
@@ -44,9 +50,9 @@ const clips = SCENES.map((s) => {
   // Trim leading and trailing silence (below -40 dB, at least 50 ms kept at each end).
   const trim = 'silenceremove=start_periods=1:start_threshold=-40dB:start_silence=0.05,areverse,' +
     'silenceremove=start_periods=1:start_threshold=-40dB:start_silence=0.05,areverse';
-  ff(['-y', '-i', src, '-af', trim, '-ar', '48000', '-ac', '2', trimmed]);
+  ffRun(['-y', '-i', src, '-af', trim, '-ar', '48000', '-ac', '2', trimmed]);
   // atempo changes speed and keeps pitch. Values above about 1.3 start to sound unnatural.
-  ff(['-y', '-i', trimmed, '-af', `atempo=${TEMPO}`, '-ar', '48000', '-ac', '2', fast]);
+  ffRun(['-y', '-i', trimmed, '-af', `atempo=${TEMPO}`, '-ar', '48000', '-ac', '2', fast]);
   return { scene: s, fast, dur: duration(fast) };
 });
 

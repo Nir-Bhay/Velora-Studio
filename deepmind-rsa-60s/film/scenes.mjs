@@ -14,7 +14,7 @@
 //     cyan and amber accents. Navy is used for shadows and caption boxes only.
 //
 // Every scene is a function (ctx, lt, alpha). `lt` is the time since the scene started, in seconds.
-// It can be negative during a cross-fade. The exported SCENE_FNS wrap each scene in save/restore,
+// Scenes are joined by hard cuts with a flash (see film/frame.mjs), so lt is >= 0 in normal use. The exported SCENE_FNS wrap each scene in save/restore,
 // so a scene can translate or scale freely without affecting the next one.
 
 // Palette. Brand hues from the brief, lifted in lightness so the film reads bright on a phone.
@@ -573,7 +573,8 @@ function scene5(ctx, lt, a) {
   T(ctx, 'ONE SHARED SETUP ≈ ONE FACTORIZATION', CX, 652, { font: '34px InterK', color: COL.navy, a: cl((lt - 2.6) * 3) });
 
   // Cost per additional key: the old method is tall, the new projection is 1/30 of that height.
-  const baseY = 1160, maxH = 380;
+  // Bars sit high enough that their labels and the two-line projection text never reach the caption box (top ~1339).
+  const baseY = 1040, maxH = 320;
   const hPrev = maxH * eo(win(lt, 4.0, 0.9));
   const hNew = (maxH / 30) * eo(win(lt, 5.4, 0.6));
   ctx.save();
@@ -587,8 +588,8 @@ function scene5(ctx, lt, a) {
   T(ctx, '≈30× LESS', 740, baseY - hNew - 22, { font: '64px InterK', color: COL.cyan, a: cl((lt - 5.8) * 3) });
 
   // The on-screen line from the brief, two lines at most.
-  T(ctx, '≈30× PROJECTED REDUCTION', CX, 1262, { font: '46px InterB', color: COL.white, a: cl((lt - 6.6) * 3) });
-  T(ctx, 'PER ADDITIONAL KEY', CX, 1318, { font: '46px InterB', color: COL.white, a: cl((lt - 7.0) * 3) });
+  T(ctx, '≈30× PROJECTED REDUCTION', CX, 1200, { font: '46px InterB', color: COL.white, a: cl((lt - 6.6) * 3) });
+  T(ctx, 'PER ADDITIONAL KEY', CX, 1256, { font: '46px InterB', color: COL.white, a: cl((lt - 7.0) * 3) });
   ctx.globalAlpha = a;
 }
 
@@ -638,7 +639,8 @@ function scene7(ctx, lt, a) {
   ctx.strokeStyle = COL.white;
   ctx.lineWidth = 8;
   ctx.globalAlpha *= eo(win(lt, 0.4, 0.4));
-  ctx.beginPath(); ctx.moveTo(CX + 170, 330); ctx.lineTo(CX - 170, 1280); ctx.stroke();
+  // The line stops above the NIST note (y 1150), so it never crosses the text.
+  ctx.beginPath(); ctx.moveTo(CX + 170, 330); ctx.lineTo(CX - 124, 1150); ctx.stroke();
   ctx.restore();
   slam(ctx, '≠', CX, 800, lt, 0.8, { font: '150px InterK', color: COL.navy, from: 2.6 });
 

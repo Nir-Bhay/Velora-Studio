@@ -1,15 +1,19 @@
 // Frame composition for the film. Shared by the ffmpeg renderer (render/render.mjs) and the Remotion editor.
 //
 // drawFilmFrame(ctx, t, timeline, opts) draws the complete picture at time t (seconds):
-//   1. the current scene, plus the next scene cross-faded in over the last XF seconds of the current one
+//   1. the scene that is on screen at t. Scenes are joined by hard cuts, with a short white flash around each cut.
 //   2. burned-in captions from the timeline
 //   3. film grain, a thin progress line, and a fade to the brand navy at the end
+//
+// Why hard cuts: an earlier cross-fade faded the outgoing scene into the background before the incoming scene's
+// elements had started (their timers are 0 at local time 0). That produced a near-empty frame at every cut.
+// A cut with a flash has no such gap, and it reads as a deliberate edit.
 //
 // `timeline` is the parsed out/timing.json. `opts.makeCanvas(w, h)` creates an offscreen canvas for the
 // grain tile. Node passes @napi-rs/canvas, and the browser passes document.createElement.
 import { SCENE_FNS, drawCaption, cl } from './scenes.mjs';
 
-export const XF = 0.35;            // cross-fade length, seconds
+export const FLASH_HALF = 0.12;    // seconds on each side of a scene cut where the white flash is drawn
 export const BG = '#0B1120';       // brand navy used for the end fade
 const GRAIN_SIZE = 256;
 
@@ -49,34 +53,27 @@ function applyGrain(ctx, grain, t, W, H) {
 }
 
 // Draws the whole film at time t. `grain` is the tile from makeGrainTile, and `total` is the film length.
-/**
- * @param {CanvasRenderingContext2D} ctx        target 2D context (node-canvas or browser canvas)
- * @param {number} t                             time in seconds
- * @param {{scenes: Array<{start: number, duration: number}>, captions: any[], total: number}} timeline
- * @param {{grain?: any, W?: number, H?: number, total?: number}} [opts]
- */
 export function drawFilmFrame(ctx, t, timeline, { grain, W = 1080, H = 1920, total = timeline.total } = {}) {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.globalAlpha = 1;
   ctx.fillStyle = BG;
   ctx.fillRect(0, 0, W, H);
 
-  // Scenes. Near a scene boundary the next scene fades in over the last XF seconds of the current one.
+  // Scene: a hard cut at each scene start. Its local time is t minus its start.
   const scenes = timeline.scenes;
   const i = sceneIndexAt(timeline, t);
-  const sc = scenes[i];
-  const lt = t - sc.start;
-  const tailStart = sc.duration - XF;
-  if (i < scenes.length - 1 && lt > tailStart) {
-    SCENE_FNS[i](ctx, lt, 1);
-    const nx = scenes[i + 1];
-    // Linear progress keeps the mix exact: final = p*next + (1-p)*current.
-    const p = cl((lt - tailStart) / XF);
-    // The next scene's local time is negative until it starts. Its element timers (win/eo) return 0 for negative
-    // times, so its content is still hidden during the cross-fade. Known issue: see EDIT-NOTES.md, section 4 (S6 → S7 dip).
-    SCENE_FNS[i + 1](ctx, t - nx.start, p);
-  } else {
-    SCENE_FNS[i](ctx, lt, 1);
+  SCENE_FNS[i](ctx, t - scenes[i].start, 1);
+
+  // White flash around the cut into the next scene. It peaks at the cut and fades out over FLASH_HALF.
+  if (i < scenes.length - 1) {
+    const d = Math.abs(scenes[i + 1].start - t);
+    if (d < FLASH_HALF) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.globalAlpha = Math.pow(1 - d / FLASH_HALF, 2) * 0.85;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalAlpha = 1;
+    }
   }
 
   // Burned-in captions.
