@@ -1,0 +1,12 @@
+{
+  "name": "deepmind-rsa-60s",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "60-second 9:16 explainer on DeepMind AI-assisted RSA-1024 research (canvas + ffmpeg)",
+  "dependencies": {
+    "@expo-google-fonts/inter": "^0.4.2",
+    "@expo-google-fonts/jetbrains-mono": "^0.4.1",
+    "@napi-rs/canvas": "^1.1.0"
+  }
+}

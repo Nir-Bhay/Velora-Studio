@@ -1,0 +1,187 @@
+1
+00:00:00,186 --> 00:00:01,206
+AI hasn't
+broken the
+
+2
+00:00:01,226 --> 00:00:02,742
+internet. It's
+putting old
+
+3
+00:00:02,762 --> 00:00:03,733
+digital locks
+under
+
+4
+00:00:03,753 --> 00:00:04,646
+pressure.
+
+5
+00:00:04,819 --> 00:00:06,694
+On November
+6, DeepMind
+
+6
+00:00:06,714 --> 00:00:08,996
+revealed two
+AI-assisted advances
+
+7
+00:00:09,016 --> 00:00:11,179
+against legacy
+RSA-1024.
+
+8
+00:00:11,351 --> 00:00:13,401
+First: digital
+signatures, the
+
+9
+00:00:13,421 --> 00:00:14,780
+seals that
+prove software
+
+10
+00:00:14,800 --> 00:00:15,683
+and messages
+are
+
+11
+00:00:15,703 --> 00:00:17,434
+authentic. In
+certain PKCS#1
+
+12
+00:00:17,454 --> 00:00:18,760
+v1.5 signing
+setups,
+
+13
+00:00:18,780 --> 00:00:20,618
+attacker-controlled input
+can make
+
+14
+00:00:20,638 --> 00:00:21,732
+padding add
+no extra
+
+15
+00:00:21,752 --> 00:00:22,801
+protection.
+
+16
+00:00:22,974 --> 00:00:24,246
+For one
+harder case,
+
+17
+00:00:24,266 --> 00:00:25,589
+DeepMind
+estimates attack
+
+18
+00:00:25,609 --> 00:00:26,830
+costs could
+fall around
+
+19
+00:00:26,850 --> 00:00:29,103
+1,600-fold. That's
+theoretical, not
+
+20
+00:00:29,123 --> 00:00:30,564
+a
+completed attack.
+
+21
+00:00:30,736 --> 00:00:32,729
+Second: batch
+factoring. After
+
+22
+00:00:32,749 --> 00:00:33,761
+an
+expensive shared
+
+23
+00:00:33,781 --> 00:00:35,619
+setup, each
+additional RSA-1024
+
+24
+00:00:35,639 --> 00:00:36,652
+key is
+projected to
+
+25
+00:00:36,672 --> 00:00:37,787
+cost roughly
+30 times
+
+26
+00:00:37,807 --> 00:00:38,768
+less than
+with the
+
+27
+00:00:38,788 --> 00:00:40,471
+previous method.
+This hasn't
+
+28
+00:00:40,491 --> 00:00:41,826
+been
+implemented.
+
+29
+00:00:41,999 --> 00:00:43,985
+What actually
+ran? Agents
+
+30
+00:00:44,005 --> 00:00:46,526
+reproduced an
+already-solved RSA-1024
+
+31
+00:00:46,546 --> 00:00:48,198
+benchmark with
+3.5 times
+
+32
+00:00:48,218 --> 00:00:49,689
+less CPU
+work.
+
+33
+00:00:49,861 --> 00:00:51,378
+DeepMind says
+these findings
+
+34
+00:00:51,398 --> 00:00:52,649
+don't threaten
+deployed
+
+35
+00:00:52,669 --> 00:00:54,928
+RSA-2048-or-larger systems.
+This isn't
+
+36
+00:00:54,948 --> 00:00:56,631
+a mass
+internet breach.
+
+37
+00:00:56,804 --> 00:00:58,122
+The warning:
+AI can
+
+38
+00:00:58,142 --> 00:00:59,950
+accelerate
+cryptanalysis.

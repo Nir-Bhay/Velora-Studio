@@ -1,0 +1,4 @@
+# Generated build output and dependencies. Rebuild with render/build.sh.
+out/
+node_modules/
+*.mp4
