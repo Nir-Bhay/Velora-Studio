@@ -6,7 +6,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createCanvas } from '@napi-rs/canvas';
-import { background, drawLock, COL } from './scenes.mjs';
+import './fonts.mjs';
+import { background, drawLock, COL } from '../film/scenes.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const c = createCanvas(1080, 1920), ctx = c.getContext('2d');

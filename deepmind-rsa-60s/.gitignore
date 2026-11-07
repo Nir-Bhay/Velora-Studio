@@ -2,3 +2,5 @@
 out/
 node_modules/
 *.mp4
+# The narration mix is copied into the Remotion public folder by the build. It is generated, not source.
+remotion/public/audio/

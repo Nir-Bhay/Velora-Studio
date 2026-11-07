@@ -1,5 +1,11 @@
 // Scene drawing for the 60-second RSA film. Kinetic motion-design version.
 //
+// This module is shared by two front-ends:
+//   - render/render.mjs draws frames with @napi-rs/canvas for the ffmpeg pipeline.
+//   - remotion/ draws the same frames in the Remotion editor, using the browser canvas.
+// It must not import anything Node-only. Fonts are registered by each front-end (see render/fonts.mjs
+// and remotion/src/fonts.ts). The font family names used here are: InterK, InterXB, InterB, MonoM, MonoR.
+//
 // Design direction (from motion-design research on vertical short-form video, 2026):
 //   - Bold scale contrast: key words are very large; supporting words are small.
 //   - Kinetic type: words slam in with overshoot, shake on impact, and wipe in highlight markers.
@@ -10,17 +16,6 @@
 // Every scene is a function (ctx, lt, alpha). `lt` is the time since the scene started, in seconds.
 // It can be negative during a cross-fade. The exported SCENE_FNS wrap each scene in save/restore,
 // so a scene can translate or scale freely without affecting the next one.
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { GlobalFonts } from '@napi-rs/canvas';
-
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const F = (p) => path.join(ROOT, 'node_modules', '@expo-google-fonts', p);
-GlobalFonts.registerFromPath(F('inter/900Black/Inter_900Black.ttf'), 'InterK');
-GlobalFonts.registerFromPath(F('inter/800ExtraBold/Inter_800ExtraBold.ttf'), 'InterXB');
-GlobalFonts.registerFromPath(F('inter/700Bold/Inter_700Bold.ttf'), 'InterB');
-GlobalFonts.registerFromPath(F('jetbrains-mono/500Medium/JetBrainsMono_500Medium.ttf'), 'MonoM');
-GlobalFonts.registerFromPath(F('jetbrains-mono/400Regular/JetBrainsMono_400Regular.ttf'), 'MonoR');
 
 // Palette. Brand hues from the brief, lifted in lightness so the film reads bright on a phone.
 export const COL = {

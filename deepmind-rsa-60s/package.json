@@ -7,6 +7,20 @@
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
     "@expo-google-fonts/jetbrains-mono": "^0.4.1",
-    "@napi-rs/canvas": "^1.1.0"
+    "@napi-rs/canvas": "^1.1.0",
+    "@remotion/cli": "4.0.541",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.541"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  },
+  "scripts": {
+    "studio": "remotion studio remotion/src/index.ts --port 3000 --no-open",
+    "remotion:sync": "mkdir -p remotion/public/audio && cp out/mix.wav remotion/public/audio/mix.wav",
+    "remotion:still": "remotion still remotion/src/index.ts DeepMindRSA60s out/remotion-still.png",
+    "build": "bash render/build.sh"
   }
 }

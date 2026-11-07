@@ -3,6 +3,7 @@
 #   1. prepare.mjs : trims and time-stretches the narration, writes out/timing.json and out/captions.srt
 #   2. music.mjs   : synthesises the music bed and SFX into out/music.wav
 #   3. mix.sh      : places the narration, ducks the music, loudness-normalises into out/mix.wav
+#                    (also copies out/mix.wav to remotion/public/audio/ for the Remotion Studio)
 #   4. render.mjs  : renders 15 four-second video segments in parallel (out/seg/)
 #   5. concat + mux: joins the segments and the audio into deepmind-rsa-60s.mp4, copies the SRT
 #   6. QA          : prints the stream layout and duration from ffmpeg -i
@@ -16,6 +17,8 @@ SEGMENTS=15  # 60 s / 4 s
 echo "== prepare"; node render/prepare.mjs
 echo "== music";   node render/music.mjs
 echo "== mix";     FFMPEG="$FF" bash render/mix.sh
+# Copy the mix into the Remotion public folder, so the Studio plays the same narration as the render.
+mkdir -p remotion/public/audio && cp out/mix.wav remotion/public/audio/mix.wav
 
 echo "== render ($SEGMENTS segments, $JOBS at a time)"
 rm -rf out/seg && mkdir -p out/seg
