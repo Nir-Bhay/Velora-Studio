@@ -63,6 +63,8 @@ export function drawFrame(t) {
   const cap = TL.captions.find((c) => t >= c.start && t < c.end);
   if (cap) drawCaption(ctx, cap, t);
 
+  applyGrain(t);
+
   // Thin progress line across the top.
   ctx.fillStyle = 'rgba(54,197,240,0.85)';
   ctx.fillRect(0, 0, WIDTH * (t / TOTAL), 6);
@@ -75,6 +77,33 @@ export function drawFrame(t) {
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
     ctx.globalAlpha = 1;
   }
+}
+
+// Film grain: a small noise tile, laid over every frame at a random offset. It hides banding in the
+// navy gradients and gives the image a more filmic texture. The offset comes from the frame time,
+// so renders are repeatable.
+const GRAIN = createCanvas(256, 256);
+{
+  const gctx = GRAIN.getContext('2d');
+  const img = gctx.createImageData(256, 256);
+  let seed = 90210;
+  for (let i = 0; i < img.data.length; i += 4) {
+    seed = (seed * 1103515245 + 12345) >>> 0;
+    const v = 118 + (seed >>> 24) % 24; // mid-grey noise, narrow range
+    img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+    img.data[i + 3] = 255;
+  }
+  gctx.putImageData(img, 0, 0);
+}
+function applyGrain(t) {
+  ctx.save();
+  const ox = Math.floor((t * 997) % 256), oy = Math.floor((t * 613) % 256);
+  ctx.globalCompositeOperation = 'overlay';
+  ctx.globalAlpha = 0.09;
+  ctx.translate(-ox, -oy);
+  ctx.fillStyle = ctx.createPattern(GRAIN, 'repeat');
+  ctx.fillRect(ox, oy, WIDTH, HEIGHT);
+  ctx.restore();
 }
 
 // Writes one frame as a PNG. Used for QA stills and the thumbnail base.

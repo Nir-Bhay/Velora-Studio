@@ -284,7 +284,22 @@ export function scene1(ctx, lt, a) {
   rise(ctx, 'AI VS RSA-1024', CX, 380, win(lt, 0.3, 0.9), { font: '104px InterK', color: COL.white });
   // Camera push: slow scale-in on the lock.
   const s = 0.94 + 0.12 * ei(win(lt, 0, 5));
-  drawLock(ctx, { cx: CX, cy: 960 + (1 - appear) * 40, s, alpha: appear, cracked: ei(win(lt, 3.0, 1.5)), glowA: 0.5 });
+  // Gentle breathing so the lock never looks frozen. Amplitude is small (about 6 px).
+  const breathe = Math.sin(lt * 1.3) * 6;
+  drawLock(ctx, { cx: CX, cy: 960 + (1 - appear) * 40 + breathe, s, alpha: appear, cracked: ei(win(lt, 3.0, 1.5)), glowA: 0.5 });
+  // Crack flash: a warm light bloom that fades in 0.8 s after the crack starts.
+  const fl = win(lt - 3.0, 0, 0.8);
+  if (lt > 3.0 && fl < 1) {
+    ctx.save();
+    const fa = Math.pow(1 - fl, 2) * 0.42 * a;
+    const fg = ctx.createRadialGradient(CX, 1080, 0, CX, 1080, 620);
+    fg.addColorStop(0, `rgba(243,166,74,${fa})`);
+    fg.addColorStop(0.4, `rgba(243,166,74,${fa * 0.25})`);
+    fg.addColorStop(1, 'rgba(243,166,74,0)');
+    ctx.fillStyle = fg;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+  }
   // Scan beam sweeps down the lock.
   const sp = win(lt, 0.8, 1.8);
   if (sp > 0 && sp < 1) {
@@ -331,16 +346,30 @@ export function scene2(ctx, lt, a) {
     ctx.beginPath(); ctx.moveTo(CX, 880); ctx.lineTo(CX, 1000); ctx.stroke();
     ctx.restore();
   }
-  drawResearchPanel(ctx, ax, ay, inA * a, 'RSA SIGNATURE FORGERY', 'Modular Roots from a Restricted Oracle', 'PAPER 1 · WORKING PAPER', COL.cyan);
-  drawResearchPanel(ctx, bx, by, inB * a, 'BATCH FACTORIZATION', 'Fan Factories: multiple number fields', 'PAPER 2 · WORKING PAPER', COL.amber);
+  drawResearchPanel(ctx, ax, ay, inA * a, 'RSA SIGNATURE FORGERY', 'Modular Roots from a Restricted Oracle', 'PAPER 1 · WORKING PAPER', COL.cyan, win(lt, 4.6, 1.3));
+  drawResearchPanel(ctx, bx, by, inB * a, 'BATCH FACTORIZATION', 'Fan Factories: multiple number fields', 'PAPER 2 · WORKING PAPER', COL.amber, win(lt, 4.8, 1.3));
   ctx.globalAlpha = a;
 }
 
-function drawResearchPanel(ctx, x, y, alpha, title, sub, tag, accent) {
+function drawResearchPanel(ctx, x, y, alpha, title, sub, tag, accent, sheenP = 0) {
   if (alpha <= 0.001) return;
   ctx.save();
   ctx.globalAlpha = alpha;
   panel(ctx, x, y, 864, 220, { glow: 30 });
+  // Sheen: one soft light band crosses the panel, clipped to its rounded edge.
+  if (sheenP > 0 && sheenP < 1) {
+    ctx.save();
+    rr(ctx, x, y, 864, 220, 28);
+    ctx.clip();
+    const sx = lerp(x - 320, x + 1184, sheenP);
+    const g = ctx.createLinearGradient(sx - 160, 0, sx + 160, 0);
+    g.addColorStop(0, 'rgba(232,237,245,0)');
+    g.addColorStop(0.5, 'rgba(232,237,245,0.10)');
+    g.addColorStop(1, 'rgba(232,237,245,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(x, y, 864, 220);
+    ctx.restore();
+  }
   ctx.fillStyle = accent;
   rr(ctx, x, y + 28, 8, 164, 4);
   ctx.fill();
@@ -627,7 +656,7 @@ export function scene6(ctx, lt, a) {
       const on = eo(win(lt, delay, 0.25));
       const x = ox + col * sx, y = oy + row * sy;
       ctx.beginPath();
-      ctx.arc(x, y, 7, 0, Math.PI * 2);
+      ctx.arc(x, y, 9, 0, Math.PI * 2);
       ctx.fillStyle = on > 0 ? `rgba(54,197,240,${0.25 + 0.7 * on})` : 'rgba(127,139,163,0.35)';
       ctx.fill();
     }
@@ -709,7 +738,7 @@ export function scene8(ctx, lt, a) {
   background(ctx, lt, { tint: COL.cyan, glowY: 740, glowA: 0.14 * (1 - win(lt, 0, 2.5)) + 0.04 });
   ctx.globalAlpha = a;
   // The modern lock stays in view. The rest of the scene darkens around it.
-  drawLock(ctx, { cx: CX, cy: 720, s: 0.9, alpha: 1, cracked: 0, glow: COL.cyan, glowA: 0.6, inscription: 'RSA-2048+' });
+  drawLock(ctx, { cx: CX, cy: 720 + Math.sin(lt * 1.1) * 7, s: 0.9, alpha: 1, cracked: 0, glow: COL.cyan, glowA: 0.6, inscription: 'RSA-2048+' });
   // A single light beam crosses the frame once.
   const bp = win(lt, 0.5, 2.6);
   if (bp > 0 && bp < 1) {
