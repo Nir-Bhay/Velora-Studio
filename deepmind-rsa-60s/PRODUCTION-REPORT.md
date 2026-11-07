@@ -49,16 +49,30 @@
 
 ## Visual design
 
-- Palette, type, and scene layout follow the brief. No Matrix code, no hooded figures, no fake CLI, and no stock imagery.
-- All visuals are drawn in code. The lock, panels, bars, node grid and curves are original.
+Revision 2 replaced the earlier dark, slow-fade design after review. The brief's palette was kept in hue, but
+lifted in lightness so the film reads bright on a phone.
+
+- **Style:** kinetic typography and motion graphics, not paper-craft or slow fades. Each scene has a hook
+  built from its own motion: a versus slam (scene 1), a fighter-card entrance (scene 2), a word-by-word
+  equation and a block-fill warning (scene 3), a count-up to 1,600× with a shockwave (scene 4), a fan burst
+  (scene 5), racing bars (scene 6), a split versus with a diagonal divider (scene 7), and a closing word
+  slam (scene 8).
+- **Research basis:** trends for vertical short-form motion design in 2026 (bold scale contrast,
+  beat-timed type, marker highlights, glitch frames, split screens, pop-up text, and a strong first second).
+- **Fight theme:** scene 1 is a literal versus ("AI VS RSA-1024"), and scene 7 is a clash across a diagonal divider.
+- **On-screen text** follows the brief's wording for each scene. Scenes 5 and 6 previously used different
+  wording and have been corrected to the brief.
+- **No new claims:** every number and phrase is in `research-notes.md`. Required caveats are on screen.
+- All visuals are drawn in code. No stock imagery, no Matrix code, no hooded figures, no fake CLI.
 - Fonts are Inter and JetBrains Mono, both under the SIL Open Font License, from `@expo-google-fonts`.
+- **Film grain** at low strength, and a slight breathing motion on the lock.
 
 ## QA performed
 
 - ffmpeg stream check: 1800 frames, 60.00 s, correct codec, size, frame rate, pixel format and audio format.
 - Loudness check: −14.0 LUFS, −1.5 dBTP.
 - Frame review: stills across all eight scenes and at scene transitions, including the 1,600× reveal, the
-  crossfades, and the hardware caveat. Review found and fixed these: the scene 3 block bar overlapping the
+  crossfades, and the hardware caveat, on revision 2. Review found and fixed these: the scene 3 block bar overlapping the
   equation, fan rays crowding "≈30×", the scene 6 headline overlapping the bars, the scene 6 grid overlapping its
   label, the scene 4 curve crossing its legend, and a crossfade bug where scene 7 had no alpha setup, so it hid
   scene 6 instead of blending with it.

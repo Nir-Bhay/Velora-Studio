@@ -47,11 +47,18 @@ FFMPEG=/path/to/ffmpeg node render/thumbnail.mjs
 
 Generated files (`out/`, `node_modules/`) are not committed. Rebuild them with the steps above.
 
-## Palette and type
+## Visual system
 
-- Background `#101725` with a deep navy gradient. Cyan `#36C5F0`, amber `#F3A64A`, soft white `#E8EDF5`.
-- Inter Black for headline numbers, Inter Bold for supporting text, JetBrains Mono for labels and on-screen text.
-- Scene content stays between y = 300 and y = 1300. Captions sit around y = 1430.
+Kinetic motion design for vertical video. The design follows motion-design practice for short-form
+vertical video in 2026: bold scale contrast, words that slam in with overshoot, marker highlights, shake on
+impact, and a "versus" structure for the fight theme.
+
+- **Background:** bright royal-blue gradient with a rotating sunburst and halftone dots. Navy is used for
+  shadows, caption boxes and ink on light blocks. The earlier version was too dark and was lifted.
+- **Palette:** royal `#2F6FD0`, cyan `#36C5F0`, amber `#F3A64A`, white `#F5F8FF`, navy `#0B1F45`, impact red `#FF5A4E` (used sparingly).
+- **Type:** Inter Black for headlines and numbers, Inter Bold and ExtraBold for supporting text, JetBrains Mono for labels and on-screen text.
+- **Motion:** slams (overshoot scale), marker wipes, shake, shockwave rings, flashes, speed lines, glitch bars.
+- **Layout:** scene content stays between y = 300 and y = 1300. Captions sit around y = 1430 in a navy box.
 
 ## Accuracy
 

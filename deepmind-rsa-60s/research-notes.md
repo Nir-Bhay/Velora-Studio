@@ -46,3 +46,18 @@ line by line). Used for framing and for the quotes listed below. No independent 
 - DeepMind's own post text was not checked line by line. Secondary coverage only.
 - No independent cryptographer assessment was found.
 - Paper 1 notes that windows below half are not run at any cryptographic size. The film does not depend on that case.
+
+## Motion-design research (visual direction)
+
+Consulted 2026 motion-design guidance on vertical short-form video. Points applied:
+
+- Bold scale contrast: key words far larger than supporting words.
+- Kinetic type that enters, interacts and exits, with a strong first second.
+- Beat-timed typography and marker highlights for emphasis.
+- Glitch frames, split screens and pop-up text for energy.
+- Keep key content inside platform safe zones, and plan one master animation.
+
+Sources consulted (secondary, for design direction only; no claims in the film depend on them):
+- "High-Impact Kinetic Typography Reel" (promptsrush.com), describes beat-synced kinetic type for 9:16.
+- "Motion Design Trends 2026: What Actually Matters" (makashif.com), kinetic type and vertical-first video.
+- "Video and Motion Creative Trends 2026" (graphicdesignjunction.com), vertical split screens, pop-up text and glitch frames.
